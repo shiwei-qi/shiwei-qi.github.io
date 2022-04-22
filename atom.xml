@@ -6,7 +6,7 @@
   <link href="https://shiwei-qi.github.io/atom.xml" rel="self"/>
   
   <link href="https://shiwei-qi.github.io/"/>
-  <updated>2022-04-22T13:55:47.970Z</updated>
+  <updated>2022-04-22T13:59:17.018Z</updated>
   <id>https://shiwei-qi.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://shiwei-qi.github.io/2022/04/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     <id>https://shiwei-qi.github.io/2022/04/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</id>
     <published>2022-04-22T13:48:16.000Z</published>
-    <updated>2022-04-22T13:55:47.970Z</updated>
+    <updated>2022-04-22T13:59:17.018Z</updated>
     
     <content type="html"><![CDATA[<h1 id="简解TCP三次握手和四次挥手"><a href="#简解TCP三次握手和四次挥手" class="headerlink" title="简解TCP三次握手和四次挥手"></a>简解TCP三次握手和四次挥手</h1><p>三次握手发生在客户端连接的时候，当调用connect(), 底层会通过TCP协议进行三次握手</p>]]></content>
     
@@ -33,10 +33,10 @@
     
     
     
-    <category term="-计算机网络" scheme="https://shiwei-qi.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    <category term="计算机网络" scheme="https://shiwei-qi.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-    <category term="-计算机网络" scheme="https://shiwei-qi.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    <category term="计算机网络" scheme="https://shiwei-qi.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
