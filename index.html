@@ -218,10 +218,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-06 23:05:31 / 修改时间：23:15:30" itemprop="dateCreated datePublished" datetime="2022-05-06T23:05:31+08:00">2022-05-06</time>
+              <time title="创建时间：2022-05-06 23:05:31" itemprop="dateCreated datePublished" datetime="2022-05-06T23:05:31+08:00">2022-05-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 15:57:15" itemprop="dateModified" datetime="2022-05-17T15:57:15+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -238,7 +244,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -257,181 +263,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/1576218250849.png" alt="1576218250849"></p>
-<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><blockquote>
-<p>版本控制是一种在开发过程中用于管理我们对文件、目录工程等内容的修改历史，方便查看更改历史记录，备份以便恢复以前的版本的软件工程技术。</p>
-<p><strong>版本控制分类</strong></p>
-</blockquote>
-<ol>
-<li><p><strong>本地版本控制</strong></p>
-<p>记录文件每次的更新，可以对每个版本做一个快照，或是记录补丁文件，适合个人使用，如RCS。</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506144248059.png" alt="image-20220506144248059" style="zoom:80%;"></p>
-</li>
-<li><p><strong>集中版本控制</strong></p>
-<p>所有的版本数据都保存在服务器上，协同开发者从服务器上同步更新或上传自己的修改</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506144736888.png" alt="image-20220506144736888" style="zoom:80%;"></p>
-<p>所有的版本数据都存在服务器上，用户的本地只有自己以前所同步的版本，如果不连网的话，用户就看不到历史版本，也无法切换版本验证问题，或在不同分支工作。而且，所有数据都保存在单一的服务器上，有很大的风险这个服务器会损坏，这样就会丢失所有的数据，当然可以定期备份。代表产品：SVN、CVS、VSS。</p>
-</li>
-<li><p><strong>分布式版本控制</strong></p>
-<p>所有版本信息仓库全部同步到本地的每个用户，这样就可以在本地查看所有版本历史，可以离线在本地提交，只需在连网时push到相应的服务器或其他用户那里。由于每个用户那里保存的都是所有的版本数据，只要有一个用户的设备没有问题就可以恢复所有的数据，但这增加了本地存储空间的占用。</p>
-<p>不会因为服务器损坏或者网络问题，造成不能工作的情况！</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506145700293.png" alt="image-20220506145700293" style="zoom:80%;"></p>
-</li>
-</ol>
-<blockquote>
-<p>Git和SVN最主要的区别</p>
-</blockquote>
-<p><strong>SVN</strong>是集中式版本控制系统，版本库是集中放在中央服务器的，而工作的时候，用的都是自己的电脑，所以首先要从中央服务器得到最新的版本，然后工作，完成工作后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，对网络带宽要求较高。</p>
-<p><strong>Git</strong>是分布式版本控制系统，没有中央服务器，每个人的电脑就是一个完整的版本库，工作的时候不需要联网了，因为版本都在自己电脑上。协同的方法是这样的：比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。Git是目前世界上最先进的分布式版本控制系统。</p>
-<p>==Git是目前世界上最先进的分布式版本控制系统==</p>
-<h2 id="Git环境配置"><a href="#Git环境配置" class="headerlink" title="Git环境配置"></a>Git环境配置</h2><blockquote>
-<p>软件下载</p>
-</blockquote>
-<p>打开 git官网： <a target="_blank" rel="noopener" href="https://git-scm.com/，下载git对应操作系统的版本。">https://git-scm.com/，下载git对应操作系统的版本。</a></p>
-<p>所有东西下载慢的话就可以去找镜像！</p>
-<p>官网下载太慢，我们可以使用淘宝镜像下载：<a target="_blank" rel="noopener" href="http://npm.taobao.org/mirrors/git-for-windows/">http://npm.taobao.org/mirrors/git-for-windows/</a></p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506151614414.png" alt="image-20220506151614414" style="zoom:50%;"></p>
-<p>下载对应的版本即可安装！</p>
-<p>安装：无脑下一步即可！安装完毕就可以使用了！</p>
-<blockquote>
-<p>启动Git</p>
-</blockquote>
-<p>安装成功后在开始菜单中会有Git项，菜单下有3个程序：任意文件夹下右键也可以看到对应的程序！</p>
-<p><strong>Git Bash：</strong>Unix与Linux风格的命令行，使用最多，推荐最多</p>
-<p><strong>Git CMD：</strong>Windows风格的命令行</p>
-<p><strong>Git GUI</strong>：图形界面的Git，不建议初学者使用，尽量先熟悉常用命令</p>
-<blockquote>
-<p>常用的Linux命令</p>
-</blockquote>
-<p>1）cd : 改变目录。</p>
-<p>2）cd . . 回退到上一个目录，直接cd进入默认目录</p>
-<p>3）pwd : 显示当前所在的目录路径。</p>
-<p>4）ls(ll):  都是列出当前目录中的所有文件，只不过ll(两个ll)列出的内容更为详细。</p>
-<p>5）touch : 新建一个文件 如 touch index.js 就会在当前目录下新建一个index.js文件。</p>
-<p>6）rm:  删除一个文件, rm index.js 就会把index.js文件删除。</p>
-<p>7）mkdir:  新建一个目录,就是新建一个文件夹。</p>
-<p>8）rm -r :  删除一个文件夹, rm -r src 删除src目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf / 切勿在Linux中尝试！删除电脑中全部文件！</span><br></pre></td></tr></table></figure>
-<p>9）mv 移动文件, mv index.html src index.html 是我们要移动的文件, src 是目标文件夹,当然, 这样写,必须保证文件和目标文件夹在同一目录下。</p>
-<p>10）reset 重新初始化终端/清屏。</p>
-<p>11）clear 清屏。</p>
-<p>12）history 查看命令历史。</p>
-<p>13）help 帮助。</p>
-<p>14）exit 退出。</p>
-<p>15）#表示注释</p>
-<blockquote>
-<p>Git配置</p>
-</blockquote>
-<p>查看配置 <code>git config -l</code></p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506160111412.png" alt="image-20220506160111412" style="zoom:80%;"></p>
-<p>查看不同级别的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看系统config</span></span><br><span class="line">git config --system --list</span><br><span class="line">　　</span><br><span class="line"><span class="comment">#查看当前用户（global）配置</span></span><br><span class="line">git config --global  --list</span><br></pre></td></tr></table></figure>
-<p><strong>Git相关的配置文件：</strong></p>
-<p>1）、Git\etc\gitconfig  ：Git 安装目录下的 gitconfig   —system 系统级</p>
-<p>2）、C:\Users\Administrator\ .gitconfig   只适用于当前登录用户的配置  —global 全局</p>
-<blockquote>
-<p>设置用户名与邮箱（用户标识，必要）</p>
-</blockquote>
-<p>当你安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;user&quot;</span>  <span class="comment">#名称</span></span><br><span class="line">git config --global user.email user@XXX.com   <span class="comment">#邮箱</span></span><br></pre></td></tr></table></figure>
-<p>只需要做一次这个设置，如果你传递了—global 选项，因为Git将总是会使用该信息来处理你在系统中所做的一切操作。如果你希望在一个特定的项目中使用不同的名称或e-mail地址，你可以在该项目中运行该命令而不要—global选项。总之—global为全局配置，不加为某个项目的特定配置。</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506161314084.png" alt="image-20220506161314084"></p>
-<h2 id="Git基本理论"><a href="#Git基本理论" class="headerlink" title="Git基本理论"></a>Git基本理论</h2><blockquote>
-<p>三个区域</p>
-</blockquote>
-<p>Git本地有三个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)。如果在加上远程的git仓库(Remote Directory)就可以分为四个工作区域。文件在这四个区域之间的转换关系如下：</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/3214.png" alt="3214" style="zoom:80%;"></p>
-<ul>
-<li>Workspace：<strong>工作区</strong>，就是你平时存放项目代码的地方</li>
-<li>Index / Stage：<strong>暂存区</strong>，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息</li>
-<li>Repository：<strong>仓库区</strong>（或本地仓库），就是安全存放数据的位置，这里面有你提交到所有版本的数据。其中HEAD指向最新放入仓库的版本</li>
-<li>Remote：<strong>远程仓库</strong>，托管代码的服务器，可以简单的认为是你项目组中的一台电脑用于远程数据交换</li>
-</ul>
-<p>本地的三个区域确切的说应该是git仓库中HEAD指向的版本：</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506210730715.png" alt="image-20220506210730715" style="zoom: 50%;"></p>
-<ul>
-<li>Directory：使用Git管理的一个目录，也就是一个仓库，包含我们的工作空间和Git的管理空间。</li>
-<li>WorkSpace：需要通过Git进行版本控制的目录和文件，这些目录和文件组成了工作空间。</li>
-<li>.git：存放Git管理信息的目录，初始化仓库的时候自动创建。</li>
-<li>Index/Stage：暂存区，或者叫待提交更新区，在提交进入repo之前，我们可以把所有的更新放在暂存区。</li>
-<li>Local Repo：本地仓库，一个存放在本地的版本库；HEAD会只是当前的开发分支（branch）。</li>
-<li>Stash：隐藏，是一个工作状态保存栈，用于保存/恢复WorkSpace中的临时状态。</li>
-</ul>
-<blockquote>
-<p><strong>工作流程</strong></p>
-</blockquote>
-<p>git的工作流程一般是这样的：</p>
-<p>１、在工作目录中添加、修改文件；</p>
-<p>２、将需要进行版本管理的文件放入暂存区域；</p>
-<p>３、将暂存区域的文件提交到git仓库。</p>
-<p>因此，git管理的文件有三种状态：已修改（modified）,已暂存（staged）,已提交(committed)</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/640.jpg" alt="640" style="zoom: 67%;"></p>
-<h2 id="Git项目搭建"><a href="#Git项目搭建" class="headerlink" title="Git项目搭建"></a>Git项目搭建</h2><blockquote>
-<p>创建工作目录与常用指令</p>
-</blockquote>
-<p>工作目录（WorkSpace)一般就是你希望Git帮助你管理的文件夹，可以是你项目的目录，也可以是一个空目录，建议不要有中文。</p>
-<p>日常使用只要记住下图6个命令：</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/640.png" alt="640" style="zoom:80%;"></p>
-<blockquote>
-<p>本地仓库搭建</p>
-</blockquote>
-<p>创建本地仓库的方法有两种：一种是创建全新的仓库，另一种是克隆远程仓库。</p>
-<p>1、创建全新的仓库，需要用GIT管理的项目的根目录执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在当前目录新建一个Git代码库</span></span><br><span class="line">$ git init</span><br></pre></td></tr></table></figure>
-<p>2、执行后可以看到，仅仅在项目目录多出了一个.git目录，关于版本等的所有信息都在这个目录里面。</p>
-<blockquote>
-<p>克隆远程仓库</p>
-</blockquote>
-<p>1、另一种方式是克隆远程目录，由于是将远程服务器上的仓库完全镜像一份至本地！</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆一个项目和它的整个代码历史(版本信息)</span></span><br><span class="line">$ git <span class="built_in">clone</span> [url]</span><br></pre></td></tr></table></figure>
-<p>2、去 gitee 或者 github 上克隆一个测试！</p>
-<h2 id="Git文件操作"><a href="#Git文件操作" class="headerlink" title="Git文件操作"></a>Git文件操作</h2><blockquote>
-<p>文件的四种状态</p>
-</blockquote>
-<p>版本控制就是对文件的版本控制，要对文件进行修改、提交等操作，首先要知道文件当前在什么状态，不然可能会提交了现在还不想提交的文件，或者要提交的文件没提交上。</p>
-<ul>
-<li><strong>Untracked</strong>: 未跟踪, 此文件在文件夹中, 但并没有加入到git库, 不参与版本控制. 通过git add 状态变为Staged.</li>
-<li><strong>Unmodify</strong>: 文件已经入库, 未修改, 即版本库中的文件快照内容与文件夹中完全一致. 这种类型的文件有两种去处, 如果它被修改, 而变为Modified. 如果使用git rm移出版本库, 则成为Untracked文件</li>
-<li><strong>Modified</strong>: 文件已修改, 仅仅是修改, 并没有进行其他的操作. 这个文件也有两个去处, 通过git add可进入暂存staged状态, 使用git checkout 则丢弃修改过, 返回到unmodify状态, 这个git checkout即从库中取出文件, 覆盖当前修改 !</li>
-<li><strong>Staged</strong>: 暂存状态. 执行git commit则将修改同步到库中, 这时库中的文件和本地文件又变为一致, 文件为Unmodify状态. 执行git reset HEAD filename取消暂存, 文件状态为Modified</li>
-</ul>
-<blockquote>
-<p>查看文件状态</p>
-</blockquote>
-<p>上面说文件有4种状态，通过如下命令可以查看到文件的状态：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看指定文件状态</span></span><br><span class="line">git status [filename]</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看所有文件状态</span></span><br><span class="line">git status</span><br><span class="line"></span><br><span class="line"><span class="comment"># git add .                  添加所有文件到暂存区</span></span><br><span class="line"><span class="comment"># git commit -m &quot;消息内容&quot;    提交暂存区中的内容到本地仓库 -m 提交信息</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>忽略文件</p>
-</blockquote>
-<p>有些时候我们不想把某些文件纳入版本控制中，比如数据库文件，临时文件，设计文件等</p>
-<p>在主目录下建立”.gitignore”文件，此文件有如下规则：</p>
-<ol>
-<li>忽略文件中的空行或以井号（#）开始的行将会被忽略。</li>
-<li>可以使用Linux通配符。例如：星号（*）代表任意多个字符，问号（？）代表一个字符，方括号（[abc]）代表可选字符范围，大括号（{string1,string2,…}）代表可选的字符串等。</li>
-<li>如果名称的最前面有一个感叹号（!），表示例外规则，将不被忽略。</li>
-<li>如果名称的最前面是一个路径分隔符（/），表示要忽略的文件在此目录下，而子目录中的文件不忽略。</li>
-<li>如果名称的最后面是一个路径分隔符（/），表示要忽略的是此目录下该名称的子目录，而非文件（默认文件或目录都忽略）。</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#为注释</span><br><span class="line">*.txt        #忽略所有 .txt结尾的文件,这样的话上传就不会被选中！</span><br><span class="line">!lib.txt     #但lib.txt除外</span><br><span class="line">/temp        #仅忽略项目根目录下的TODO文件,不包括其它目录temp</span><br><span class="line">build/       #忽略build/目录下的所有文件</span><br><span class="line">doc/*.txt    #会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span><br></pre></td></tr></table></figure>
-<h2 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h2><p>远程仓库可以选用Github或者Gitee等常用仓库，设置本机绑定SSH公钥，实现免密码登录等操作本处不做详细介绍。</p>
-<p>1、新建项目，绑定git。</p>
-<p>2、修改文件，使用IDEA操作git。</p>
-<ul>
-<li>添加到暂存区</li>
-<li>commit 提交</li>
-<li>push到远程仓库</li>
-</ul>
-<p>3、提交测试</p>
-<h2 id="说明：GIT分支"><a href="#说明：GIT分支" class="headerlink" title="说明：GIT分支"></a>说明：GIT分支</h2><p>分支在GIT中相对较难，分支就是科幻电影里面的平行宇宙，如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，我们就需要处理一些问题了！</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/235235.png" alt="235235"></p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/54675.png" alt="54675"></p>
-<p>git分支中常用指令： </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 列出所有本地分支</span><br><span class="line">git branch</span><br><span class="line"></span><br><span class="line"># 列出所有远程分支</span><br><span class="line">git branch -r</span><br><span class="line"></span><br><span class="line"># 新建一个分支，但依然停留在当前分支</span><br><span class="line">git branch [branch-name]</span><br><span class="line"></span><br><span class="line"># 新建一个分支，并切换到该分支</span><br><span class="line">git checkout -b [branch]</span><br><span class="line"></span><br><span class="line"># 合并指定分支到当前分支</span><br><span class="line">$ git merge [branch]</span><br><span class="line"></span><br><span class="line"># 删除分支</span><br><span class="line">$ git branch -d [branch-name]</span><br><span class="line"></span><br><span class="line"># 删除远程分支</span><br><span class="line">$ git push origin --delete [branch-name]</span><br><span class="line">$ git branch -dr [remote/branch]</span><br></pre></td></tr></table></figure>
-<p>IDEA中操作</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/235423.png" alt="235423"></p>
-<p>如果同一个文件在合并分支时都被修改了则会引起冲突：解决的办法是我们可以修改冲突文件后重新提交！选择要保留他的代码还是你的代码！</p>
-<p>master主分支应该非常稳定，用来发布新版本，一般情况下不允许在上面工作，工作一般情况下在新建的dev分支上工作，工作完后，比如上要发布，或者说dev分支代码稳定后可以合并到主分支master上来。</p>
-
+          <p>Git是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。也是Linus Torvalds为了帮助管理Linux内核开发而开发的一个开放源码的版本控制软件。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -473,10 +313,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-06 22:51:55 / 修改时间：23:31:09" itemprop="dateCreated datePublished" datetime="2022-05-06T22:51:55+08:00">2022-05-06</time>
+              <time title="创建时间：2022-05-06 22:51:55" itemprop="dateCreated datePublished" datetime="2022-05-06T22:51:55+08:00">2022-05-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 16:00:21" itemprop="dateModified" datetime="2022-05-17T16:00:21+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -493,7 +339,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.4k</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -512,216 +358,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/girl-16518503155441.jpg" alt="girl"></p>
-<h1 id="Typora使用教程及MarkDown语法"><a href="#Typora使用教程及MarkDown语法" class="headerlink" title="Typora使用教程及MarkDown语法"></a>Typora使用教程及MarkDown语法</h1><h2 id="Markdown与Typora介绍"><a href="#Markdown与Typora介绍" class="headerlink" title="Markdown与Typora介绍"></a>Markdown与Typora介绍</h2><h3 id="Markdown介绍"><a href="#Markdown介绍" class="headerlink" title="Markdown介绍"></a>Markdown介绍</h3><blockquote>
-<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。</p>
-<p>Markdown 语言在 2004 由约翰·格鲁伯（英语：John Gruber）创建。</p>
-<p>Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。</p>
-<p>Markdown 编写的文档后缀为 .md, .markdown</p>
-</blockquote>
-<h3 id="Typora介绍与下载"><a href="#Typora介绍与下载" class="headerlink" title="Typora介绍与下载"></a>Typora介绍与下载</h3><p>Typora编辑器让人们能更简单地用Markdown语言书写文字，解决了使用传统的Markdown编辑器写文的痛点，并且界面简洁优美，实现了实时预览等功能。</p>
-<p>Typora官网： <a target="_blank" rel="noopener" href="https://typora.io/">https://typora.io/</a></p>
-<h2 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h2><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>使用 <code>#</code> 可以表示标题，一级标题对应一个 <code>#</code> ，二级标题对应两个 <code>#</code> 号，最多至六级标题。在Typora中，<code>#</code> 后要紧接着一个空格才能表示标题，否则就是普通字符。</p>
-<p>在Typora中，也可以使用快捷键<strong>Ctrl+1</strong>（2，3，4，5，6）表示相对应的标题。<strong>Ctrl+0</strong>表示段落。标题快捷键信息可在菜单栏中的段落选项下查看。</p>
-<h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><ul>
-<li><p>用一对星号括住的文本表示斜体文本，如：<code>*</code>要变斜体的文本<code>*</code>，<em>斜体文本</em> ；</p>
-</li>
-<li><p>也可以用一对下划线括住文本来表示斜体文本，如：<code>_</code>要变斜体的文本<code>_</code>，<em>斜体文本</em> ；</p>
-</li>
-</ul>
-<p>也可以使用Typora的快捷键<strong>Ctrl+I</strong>来表示斜体文本。</p>
-<ul>
-<li><p>用一对<code>**</code>括住的文本表示粗体文本，如：<code>**</code>要变粗体的文本<code>**</code>，<strong>粗体文本</strong>；</p>
-</li>
-<li><p>也可以用一对<code>__</code>括住的文本来表示粗体文本，如：<code>__</code>要变粗体的文本<code>__</code>，<strong>粗体文本</strong>；</p>
-</li>
-</ul>
-<p>也可以使用Typora的快捷键<strong>Ctrl+B</strong>来表示粗体文本。</p>
-<p>用一对<code>***</code>括住的文本表示粗斜体文本，如：<code>***</code>要变粗斜体的文本<code>***</code>，<strong><em>粗斜体文本</em></strong>；<br>也可以用一对<code>___</code>括住的文本来表示粗斜体文本，如：<code>___</code>要变粗斜体的文本<code>___</code>，<strong><em>粗斜体文本</em></strong></p>
-<h3 id="各种线"><a href="#各种线" class="headerlink" title="各种线"></a>各种线</h3><ul>
-<li>分割线，可以使用<strong>三个及以上</strong>的 <code>+</code> 号或 <code>*</code> 号或 <code>-</code> 来表示一条分割线；</li>
-</ul>
-<hr>
-<ul>
-<li>删除线，可以使用一对<code>~~</code>括住的文本来表示删除文本，如：<code>~~</code>要加删除线的文本<code>~~</code>，<del>删除文本</del>；在Typora中，也可以使用快捷键<strong>Alt+Shift+5</strong>来加删除线，语法相同，<del>删除线</del>。</li>
-<li>下划线，可以使用HTML的标签<code>&lt;u&gt;</code>和<code>&lt;/u&gt;</code>表示增加下划线的文本，如：<code>&lt;u&gt;</code>要增加下划线的文本<code>&lt;/u&gt;</code>，<u>下划线</u>；在Typora中，也可以使用快捷键<strong>Ctrl+U</strong>来增加下划线，语法也是相同的，<u>下划线</u>。</li>
-</ul>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p><strong>无序列表</strong></p>
-<p>可以使用<code>*</code>，<code>+</code>或<code>-</code>标记符号来表示无序列表项，记住要在标记符号后<strong>添加一个空格</strong>，语法显示如下：</p>
-<p>在Typora中可以使用快捷键<strong>Ctrl + Shift + ]</strong> 、<strong>Ctrl + Shift + [</strong> </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* 第一项</span><br><span class="line">* 第二项</span><br><span class="line">+ 第一项</span><br><span class="line">+ 第二项</span><br><span class="line">- 第一项</span><br><span class="line">- 第二项</span><br></pre></td></tr></table></figure>
-<p><strong>有序列表</strong></p>
-<p>可以使用<strong>数字加上<code>.</code>再加上空格</strong>来表示有序列表，语法如下：</p>
-<p>在Typora中可以使用快捷键<strong>Ctrl + Shift + [</strong> </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 第一项</span><br><span class="line">3. 第二项</span><br><span class="line">10. 第三项</span><br></pre></td></tr></table></figure>
-<p><strong>嵌套列表</strong></p>
-<p>首先使用<code>*</code>、<code>+</code>或<code>-</code>进入列表，然后回车换行，会发现系统自动生成列表第二项，此时按下<strong>Tab</strong>键，列表第二项变为第一项的子列表。<strong>按回车退出当前列表</strong>。可以在无序列表中嵌套有序列表, 也可以在有序列表中嵌套无序列表。</p>
-<ol>
-<li>一级<ol>
-<li>一一级</li>
-<li>一二级<ul>
-<li>一二一级</li>
-<li>一二二级</li>
-</ul>
-</li>
-<li>一三级</li>
-</ol>
-</li>
-<li>二级</li>
-</ol>
-<p>快捷键<strong>Shift + tab</strong> ——返回上一级列表</p>
-<h3 id="区块"><a href="#区块" class="headerlink" title="区块"></a>区块</h3><p>当我们想要引用别人的文章内容时，可以将其放在区块内。</p>
-<p>可以使用<code>&gt;</code>加空格来表示区块。</p>
-<blockquote>
-<p>一级区块</p>
-<blockquote>
-<p>二级区块</p>
-<blockquote>
-<p>三级区块</p>
-</blockquote>
-<p>二级区块</p>
-</blockquote>
-</blockquote>
-<p>要退出区块，同样使用<code>Enter</code>键即可</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>如果是一行代码，可以使用段内代码块来表示，用一对 <strong>`</strong>（数字1旁边的符号）括住代码。</p>
-<p>比如<code>printf(&quot;Hello World!&quot;)</code></p>
-<p>如果是代码段，那么可以使用<strong>三个 ` 加Enter/空格+编程语言</strong>来表示。使用快捷键<strong>ctrl + shift + k</strong>如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello world!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>链接的使用方式有两种语法，如下：</p>
-<p><code>[</code>链接文字<code>]</code> <code>(</code>链接地址<code>)</code><br>或<br><code>[</code>链接文字<code>]</code> <code>()</code></p>
-<p>示例如下：按住<strong>Ctrl+鼠标左键</strong>点击访问。</p>
-<p><a target="_blank" rel="noopener" href="https://www.baidu.com/">百度</a><br><a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com/</a></p>
-<p>链接除了可以打开相应的网页外，还可以<strong>打开本地文件</strong>，使用方式类似，不过链接地址需要使用本地文件的地址，相对地址、绝对地址均可：</p>
-<p><code>[</code>打开LinkTest.md文档<code>]</code> <code>(</code>./LinkTest.md<code>)</code></p>
-<p>我们也可以使用链接来实现<strong>页内跳转</strong>，语法为：</p>
-<p><code>[</code>链接文字<code>]</code> <code>(</code>#标题文字<code>)</code></p>
-<p>eg: <a href="#Typora使用教程及MarkDown语法">跳到首页</a></p>
-<h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p>我们也可以在Markdown文档中插入图片，语法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![alt 属性文本](图片地址)</span><br><span class="line"></span><br><span class="line">![alt 属性文本](图片地址 &quot;可选标题&quot;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>首先一个感叹号</li>
-<li>然后中括号里面写属性文本</li>
-<li>小括号里面写图片地址，后可接标题</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">![本地png图片PictureTest.png](./img/PictureTest.png)</span><br><span class="line"></span><br><span class="line">![本地jpg图片](./img/PictureTest.jpg)</span><br><span class="line"></span><br><span class="line">![网络图片](http://static.runoob.com/images/runoob-logo.png &quot;菜鸟教程&quot;)</span><br></pre></td></tr></table></figure>
-<p>在Typora中，也可以直接使用<code>Ctrl+C</code>，<code>Ctrl+V</code>来直接进行复制粘贴图片，但是，由于Markdown是需要图片的地址的，所以需要简单设置一下Typora。</p>
-<p>点击文件 —&gt; 偏好设置 —&gt; 图像，如下：</p>
-<p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjYxMjUx,size_16,color_FFFFFF,t_70-16518503155442.png" alt="img"></p>
-<p>可以自行设置选择将图片复制到哪个文件夹。</p>
-<p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/20191108173139695-16518503155444.png" alt="img"></p>
-<p>这里选择复制到指定路径，然后在下面一栏中填写./img，表示将图片复制到你正在编辑的文档同一级的img文件夹下。在下面的选项中，勾选第一、二、三项。正因为勾选了第二项，所以当我们在插入网络图片时，Typora会自动帮我们将网络图片下载到指定的路径下，前面的”菜鸟教程”图片便是如此。</p>
-<p>由于Markdown的特殊语法，故经常会出现图片加载失败的情况，很大的可能就是因为在指定的路径上找不到相应的图片，当然，有时候也是由于Typora的原因，重启Typora即可</p>
-<h3 id="颜色字体"><a href="#颜色字体" class="headerlink" title="颜色字体"></a>颜色字体</h3><p>替换对应颜色代码即可</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$\color&#123;#FF3030&#125;&#123;red&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#0000CD&#125;&#123;blue&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#33ff66&#125;&#123;green&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#ffff00&#125;&#123;yellow&#125;$</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/image-20220506232014009.png" alt="image-20220506232014009"></p>
-<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>Markdown 制作表格使用 <code>|</code> 来分隔不同的单元格，使用 <code>-</code> 来分隔表头和其他行。</p>
-<p>语法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|表头|表头|表头|</span><br><span class="line">|---|---|----|</span><br><span class="line">|单元格|单元格|单元格|</span><br><span class="line">|单元格|单元格|单元格|</span><br></pre></td></tr></table></figure>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>表头</th>
-<th>表头</th>
-<th>表头</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>单元格</td>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-<tr>
-<td>单元格</td>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>我们可以设置对齐方式：</p>
-<ul>
-<li><code>:-</code>表示左对齐</li>
-<li><code>-:</code>表示右对齐</li>
-<li><code>:-:</code>表示中间对齐</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|左对齐|右对齐|中间对齐|</span><br><span class="line">|:---|---:|:----:|</span><br><span class="line">|单元格|单元格|单元格|</span><br><span class="line">|单元格|单元格|单元格|</span><br></pre></td></tr></table></figure>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">左对齐</th>
-<th style="text-align:right">右对齐</th>
-<th style="text-align:center">中间对齐</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">单元格</td>
-<td style="text-align:right">单元格</td>
-<td style="text-align:center">单元格</td>
-</tr>
-<tr>
-<td style="text-align:left">单元格</td>
-<td style="text-align:right">单元格</td>
-<td style="text-align:center">单元格</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>在Typora中，我们可以使用快捷键<strong>Ctrl+T</strong>来插入表格，并选择行列，当选中表格某一单元格时，可以在表格左上角手动设置对齐方式，右上角选择更多操作。</p>
-<h2 id="Typora与数学公式"><a href="#Typora与数学公式" class="headerlink" title="Typora与数学公式"></a>Typora与数学公式</h2><h3 id="如何插入数学公式"><a href="#如何插入数学公式" class="headerlink" title="如何插入数学公式"></a>如何插入数学公式</h3><p>在Typora中，有两种方法插入数学公式，语法为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">第一种方法：$数学公式$</span><br><span class="line">第二种方法：</span><br><span class="line">$$</span><br><span class="line">数学公式</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
-<p>第一种方法表示插入行内公式（内联公式），即可以将公式插入到一行中，比如$1 + 2 = 3$ 这样的公式。</p>
-<p>第二种方法表示插入行间公式（外联公式），即可以将公式插入到行与行之间，单独占据一行或者数行的空间，并且居中放置。</p>
-<script type="math/tex; mode=display">
-1+2=3</script><p>如果要在行间公式内换行，在换行的位置使用<code>\\</code></p>
-<p>常用符号、上下标、根号、括号、运算符等此处不做详细介绍</p>
-<h2 id="Typora与HTML"><a href="#Typora与HTML" class="headerlink" title="Typora与HTML"></a>Typora与HTML</h2><h3 id="改变字体颜色及大小"><a href="#改变字体颜色及大小" class="headerlink" title="改变字体颜色及大小"></a>改变字体颜色及大小</h3><p>我们可以使用<code>&lt;font&gt; &lt;/font&gt;</code>标签来改变字体的颜色及大小，如：</p>
-<p>属性<code>size</code>表示字体大小，<code>color</code>表示颜色。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;font size=3 color=&quot;red&quot;&gt;字体颜色为红色，大小为3&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">&lt;font size=4 color=&quot;blue&quot;&gt;字体颜色为蓝色，大小为4&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">&lt;font size=6 color=&quot;violet&quot;&gt;字体颜色为紫罗兰，大小为6&lt;/font&gt;</span><br></pre></td></tr></table></figure>
-<font size="3" color="red">字体颜色为红色，大小为3</font>
-
-
-
-<font size="4" color="blue">字体颜色为蓝色，大小为4</font>
-
-
-
-<font size="6" color="violet">字体颜色为紫罗兰，大小为6</font>
-
-
-
-<h3 id="改变对齐方式"><a href="#改变对齐方式" class="headerlink" title="改变对齐方式"></a>改变对齐方式</h3><p>我们可以改变字体的对齐方式，用标签<code>&lt;p&gt; &lt;/p&gt;</code>加上属性<code>align</code>，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p align=&quot;left&quot;&gt;左对齐&lt;/p&gt;</span><br><span class="line">&lt;p align=&quot;center&quot;&gt;中间对齐&lt;/p&gt;</span><br><span class="line">&lt;p align=&quot;right&quot;&gt;右对齐&lt;/p&gt;</span><br></pre></td></tr></table></figure>
-<p align="left">左对齐</p>
-
-<p align="left">左对齐</p>
-<p align="center">中间对齐</p>
-<p align="right">右对齐</p>
-
-<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>因为CSDN不支持使用img标签修改图像，所以下面的结果都不是准确的。大家可以自己在Typora中测试。<br>我们可以通过标签<code>&lt;img src=url /&gt;</code>来插入图片，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<p>我们可以改变<code>&lt;img&gt;</code>标签的属性，来改变图片的大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=100 height=100/&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100/"></p>
-<p>我们可以改变<code>&lt;img&gt;</code>标签的属性，来改变图片的大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=30 height=30 style=&quot;float:left&quot;/&gt;图片在左边</span><br><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=30 height=30 style=&quot;float:right&quot;/&gt;图片在右边</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100" style="float:left">图片在左边</p>
-<p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100" style="float:right"></p>
-<p>图片在右边</p>
-<h2 id="扩展用法"><a href="#扩展用法" class="headerlink" title="扩展用法"></a>扩展用法</h2><h3 id="插入emoji表情"><a href="#插入emoji表情" class="headerlink" title="插入emoji表情"></a>插入emoji表情</h3><p>我们可以使用<code>:emoji:</code>的语法来插入表情，比如：</p>
-<p>:happy:的语法为<code>:happy:</code></p>
-<p>🦀的语法为<code>:crab:</code></p>
-<p>🐴的语法为<code>:horse:</code></p>
-<h3 id="插入目录"><a href="#插入目录" class="headerlink" title="插入目录"></a>插入目录</h3><p>当我们为使用标题将文分章节后，可以在输入<code>[toc]</code>命令的地方自动根据标题生成目录。</p>
-<h3 id="文本高亮"><a href="#文本高亮" class="headerlink" title="文本高亮"></a>文本高亮</h3><p>在Typora中，可以用一对<code>==</code>将要高亮的文本括起来，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">==要高亮的文本==</span><br><span class="line">==背景会用黄色填充==</span><br></pre></td></tr></table></figure>
-<p>结果为：</p>
-<p><img src="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/image-20220506233054585.png" alt="image-20220506233054585"></p>
-<p>这个功能可在偏好设置 —&gt; Markdown扩展语法中设置。</p>
-
+          <p>本文简单介绍了Typora软件的使用以及MarkDown基本语法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -802,7 +447,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="简解TCP三次握手和四次挥手"><a href="#简解TCP三次握手和四次挥手" class="headerlink" title="简解TCP三次握手和四次挥手"></a>简解TCP三次握手和四次挥手</h1><p>三次握手发生在客户端连接的时候，当调用connect(), 底层会通过TCP协议进行三次握手</p>
+          <h1>简解TCP三次握手和四次挥手</h1>
+<p>三次握手发生在客户端连接的时候，当调用connect(), 底层会通过TCP协议进行三次握手</p>
 
       
     </div>
@@ -944,8 +590,6 @@
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     <span title="站点阅读时长">9 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
-  </div>
 
         
 

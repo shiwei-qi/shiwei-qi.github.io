@@ -225,7 +225,7 @@
               <a href="/tags/Git/" style="font-size: 12px;">Git</a> <a href="/tags/MarkDown/" style="font-size: 12px;">MarkDown</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12px;">计算机网络</a>
             </div>
           </div>
-          <script type="text/javascript">
+        <script type="text/javascript">
      var alltags = document.getElementsByClassName('tag-cloud-tags');
      var tags = alltags[0].getElementsByTagName('a');
      for (var i = tags.length - 1; i >= 0; i--) {
@@ -249,17 +249,20 @@
     padding-left: 5px;
     margin: 8px 5px 0px 0px;
   }
-  .tag-cloud-tags a:before{
-    content: "🔖";
+ .tag-cloud-tags a:before{
+    font-family: 'Font Awesome 5 Free';
+    content: "\f02b";
+    font-weight: 900;
   }
 
   .tag-cloud-tags a:hover{
-     box-shadow: 0px 5px 15px 0px rgba(104, 104, 105,.4);
+     box-shadow: 0px 5px 15px 0px rgba(0,0,0,.4);
      transform: scale(1.1);
      /*box-shadow: 10px 10px 15px 2px rgba(0,0,0,.12), 0 0 6px 0 rgba(104, 104, 105, 0.1);*/
      transition-duration: 0.15s;
   }
 </style>
+
         
       </div>
       
@@ -395,8 +398,6 @@
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     <span title="站点阅读时长">9 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
-  </div>
 
         
 

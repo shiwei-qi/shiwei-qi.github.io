@@ -19,12 +19,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"shiwei-qi.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
-  <meta name="description" content="Git版本控制 版本控制是一种在开发过程中用于管理我们对文件、目录工程等内容的修改历史，方便查看更改历史记录，备份以便恢复以前的版本的软件工程技术。 版本控制分类   本地版本控制 记录文件每次的更新，可以对每个版本做一个快照，或是记录补丁文件，适合个人使用，如RCS。   集中版本控制 所有的版本数据都保存在服务器上，协同开发者从服务器上同步更新或上传自己的修改  所有的版本数据都存在服务器上">
+  <meta name="description" content="Git是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。也是Linus Torvalds为了帮助管理Linux内核开发而开发的一个开放源码的版本控制软件。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git及相关操作">
 <meta property="og:url" content="https://shiwei-qi.github.io/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/">
 <meta property="og:site_name" content="zmqNut">
-<meta property="og:description" content="Git版本控制 版本控制是一种在开发过程中用于管理我们对文件、目录工程等内容的修改历史，方便查看更改历史记录，备份以便恢复以前的版本的软件工程技术。 版本控制分类   本地版本控制 记录文件每次的更新，可以对每个版本做一个快照，或是记录补丁文件，适合个人使用，如RCS。   集中版本控制 所有的版本数据都保存在服务器上，协同开发者从服务器上同步更新或上传自己的修改  所有的版本数据都存在服务器上">
+<meta property="og:description" content="Git是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。也是Linus Torvalds为了帮助管理Linux内核开发而开发的一个开放源码的版本控制软件。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://shiwei-qi.github.io/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/1576218250849.png">
 <meta property="og:image" content="https://shiwei-qi.github.io/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506144248059.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://shiwei-qi.github.io/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/54675.png">
 <meta property="og:image" content="https://shiwei-qi.github.io/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/235423.png">
 <meta property="article:published_time" content="2022-05-06T15:05:31.000Z">
-<meta property="article:modified_time" content="2022-05-06T15:15:30.385Z">
+<meta property="article:modified_time" content="2022-05-17T07:57:15.616Z">
 <meta property="article:author" content="shiwei-qi">
 <meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary">
@@ -235,10 +235,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-06 23:05:31 / 修改时间：23:15:30" itemprop="dateCreated datePublished" datetime="2022-05-06T23:05:31+08:00">2022-05-06</time>
+              <time title="创建时间：2022-05-06 23:05:31" itemprop="dateCreated datePublished" datetime="2022-05-06T23:05:31+08:00">2022-05-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 15:57:15" itemprop="dateModified" datetime="2022-05-17T15:57:15+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -255,7 +261,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -264,6 +270,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>5 分钟</span>
             </span>
+            <div class="post-description">Git是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。也是Linus Torvalds为了帮助管理Linux内核开发而开发的一个开放源码的版本控制软件。</div>
 
         </div>
       </header>
@@ -274,25 +281,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/1576218250849.png" alt="1576218250849"></p>
-<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><blockquote>
+        <img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/1576218250849.png" alt="1576218250849" style="zoom: 67%;">
+<h1>版本控制</h1>
+<blockquote>
 <p>版本控制是一种在开发过程中用于管理我们对文件、目录工程等内容的修改历史，方便查看更改历史记录，备份以便恢复以前的版本的软件工程技术。</p>
+</blockquote>
+<blockquote>
 <p><strong>版本控制分类</strong></p>
 </blockquote>
 <ol>
-<li><p><strong>本地版本控制</strong></p>
+<li>
+<p><strong>本地版本控制</strong></p>
 <p>记录文件每次的更新，可以对每个版本做一个快照，或是记录补丁文件，适合个人使用，如RCS。</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506144248059.png" alt="image-20220506144248059" style="zoom:80%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506144248059.png" alt="image-20220506144248059" style="zoom:80%;">
 </li>
-<li><p><strong>集中版本控制</strong></p>
+<li>
+<p><strong>集中版本控制</strong></p>
 <p>所有的版本数据都保存在服务器上，协同开发者从服务器上同步更新或上传自己的修改</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506144736888.png" alt="image-20220506144736888" style="zoom:80%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506144736888.png" alt="image-20220506144736888" style="zoom:80%;">
 <p>所有的版本数据都存在服务器上，用户的本地只有自己以前所同步的版本，如果不连网的话，用户就看不到历史版本，也无法切换版本验证问题，或在不同分支工作。而且，所有数据都保存在单一的服务器上，有很大的风险这个服务器会损坏，这样就会丢失所有的数据，当然可以定期备份。代表产品：SVN、CVS、VSS。</p>
 </li>
-<li><p><strong>分布式版本控制</strong></p>
+<li>
+<p><strong>分布式版本控制</strong></p>
 <p>所有版本信息仓库全部同步到本地的每个用户，这样就可以在本地查看所有版本历史，可以离线在本地提交，只需在连网时push到相应的服务器或其他用户那里。由于每个用户那里保存的都是所有的版本数据，只要有一个用户的设备没有问题就可以恢复所有的数据，但这增加了本地存储空间的占用。</p>
 <p>不会因为服务器损坏或者网络问题，造成不能工作的情况！</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506145700293.png" alt="image-20220506145700293" style="zoom:80%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506145700293.png" alt="image-20220506145700293" style="zoom:80%;">
 </li>
 </ol>
 <blockquote>
@@ -301,21 +314,22 @@
 <p><strong>SVN</strong>是集中式版本控制系统，版本库是集中放在中央服务器的，而工作的时候，用的都是自己的电脑，所以首先要从中央服务器得到最新的版本，然后工作，完成工作后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，对网络带宽要求较高。</p>
 <p><strong>Git</strong>是分布式版本控制系统，没有中央服务器，每个人的电脑就是一个完整的版本库，工作的时候不需要联网了，因为版本都在自己电脑上。协同的方法是这样的：比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。Git是目前世界上最先进的分布式版本控制系统。</p>
 <p>==Git是目前世界上最先进的分布式版本控制系统==</p>
-<h2 id="Git环境配置"><a href="#Git环境配置" class="headerlink" title="Git环境配置"></a>Git环境配置</h2><blockquote>
+<h1>Git环境配置</h1>
+<blockquote>
 <p>软件下载</p>
 </blockquote>
-<p>打开 git官网： <a target="_blank" rel="noopener" href="https://git-scm.com/，下载git对应操作系统的版本。">https://git-scm.com/，下载git对应操作系统的版本。</a></p>
+<p>打开 git官网： <a target="_blank" rel="noopener" href="https://git-scm.com/%EF%BC%8C%E4%B8%8B%E8%BD%BDgit%E5%AF%B9%E5%BA%94%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%88%E6%9C%AC%E3%80%82">https://git-scm.com/，下载git对应操作系统的版本。</a></p>
 <p>所有东西下载慢的话就可以去找镜像！</p>
 <p>官网下载太慢，我们可以使用淘宝镜像下载：<a target="_blank" rel="noopener" href="http://npm.taobao.org/mirrors/git-for-windows/">http://npm.taobao.org/mirrors/git-for-windows/</a></p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506151614414.png" alt="image-20220506151614414" style="zoom:50%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506151614414.png" alt="image-20220506151614414" style="zoom:50%;">
 <p>下载对应的版本即可安装！</p>
 <p>安装：无脑下一步即可！安装完毕就可以使用了！</p>
 <blockquote>
 <p>启动Git</p>
 </blockquote>
 <p>安装成功后在开始菜单中会有Git项，菜单下有3个程序：任意文件夹下右键也可以看到对应的程序！</p>
-<p><strong>Git Bash：</strong>Unix与Linux风格的命令行，使用最多，推荐最多</p>
-<p><strong>Git CMD：</strong>Windows风格的命令行</p>
+<p>**Git Bash：**Unix与Linux风格的命令行，使用最多，推荐最多</p>
+<p>**Git CMD：**Windows风格的命令行</p>
 <p><strong>Git GUI</strong>：图形界面的Git，不建议初学者使用，尽量先熟悉常用命令</p>
 <blockquote>
 <p>常用的Linux命令</p>
@@ -340,24 +354,25 @@
 <p>Git配置</p>
 </blockquote>
 <p>查看配置 <code>git config -l</code></p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506160111412.png" alt="image-20220506160111412" style="zoom:80%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506160111412.png" alt="image-20220506160111412" style="zoom:80%;">
 <p>查看不同级别的配置文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看系统config</span></span><br><span class="line">git config --system --list</span><br><span class="line">　　</span><br><span class="line"><span class="comment">#查看当前用户（global）配置</span></span><br><span class="line">git config --global  --list</span><br></pre></td></tr></table></figure>
 <p><strong>Git相关的配置文件：</strong></p>
-<p>1）、Git\etc\gitconfig  ：Git 安装目录下的 gitconfig   —system 系统级</p>
-<p>2）、C:\Users\Administrator\ .gitconfig   只适用于当前登录用户的配置  —global 全局</p>
+<p>1）、Git\etc\gitconfig  ：Git 安装目录下的 gitconfig   --system 系统级</p>
+<p>2）、C:\Users\Administrator\ .gitconfig   只适用于当前登录用户的配置  --global 全局</p>
 <blockquote>
 <p>设置用户名与邮箱（用户标识，必要）</p>
 </blockquote>
 <p>当你安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;user&quot;</span>  <span class="comment">#名称</span></span><br><span class="line">git config --global user.email user@XXX.com   <span class="comment">#邮箱</span></span><br></pre></td></tr></table></figure>
-<p>只需要做一次这个设置，如果你传递了—global 选项，因为Git将总是会使用该信息来处理你在系统中所做的一切操作。如果你希望在一个特定的项目中使用不同的名称或e-mail地址，你可以在该项目中运行该命令而不要—global选项。总之—global为全局配置，不加为某个项目的特定配置。</p>
+<p>只需要做一次这个设置，如果你传递了–global 选项，因为Git将总是会使用该信息来处理你在系统中所做的一切操作。如果你希望在一个特定的项目中使用不同的名称或e-mail地址，你可以在该项目中运行该命令而不要–global选项。总之–global为全局配置，不加为某个项目的特定配置。</p>
 <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506161314084.png" alt="image-20220506161314084"></p>
-<h2 id="Git基本理论"><a href="#Git基本理论" class="headerlink" title="Git基本理论"></a>Git基本理论</h2><blockquote>
+<h1>Git基本理论</h1>
+<blockquote>
 <p>三个区域</p>
 </blockquote>
 <p>Git本地有三个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)。如果在加上远程的git仓库(Remote Directory)就可以分为四个工作区域。文件在这四个区域之间的转换关系如下：</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/3214.png" alt="3214" style="zoom:80%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/3214.png" alt="3214" style="zoom:80%;">
 <ul>
 <li>Workspace：<strong>工作区</strong>，就是你平时存放项目代码的地方</li>
 <li>Index / Stage：<strong>暂存区</strong>，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息</li>
@@ -365,7 +380,7 @@
 <li>Remote：<strong>远程仓库</strong>，托管代码的服务器，可以简单的认为是你项目组中的一台电脑用于远程数据交换</li>
 </ul>
 <p>本地的三个区域确切的说应该是git仓库中HEAD指向的版本：</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506210730715.png" alt="image-20220506210730715" style="zoom: 50%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506210730715.png" alt="image-20220506210730715" style="zoom: 50%;">
 <ul>
 <li>Directory：使用Git管理的一个目录，也就是一个仓库，包含我们的工作空间和Git的管理空间。</li>
 <li>WorkSpace：需要通过Git进行版本控制的目录和文件，这些目录和文件组成了工作空间。</li>
@@ -382,13 +397,14 @@
 <p>２、将需要进行版本管理的文件放入暂存区域；</p>
 <p>３、将暂存区域的文件提交到git仓库。</p>
 <p>因此，git管理的文件有三种状态：已修改（modified）,已暂存（staged）,已提交(committed)</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/640.jpg" alt="640" style="zoom: 67%;"></p>
-<h2 id="Git项目搭建"><a href="#Git项目搭建" class="headerlink" title="Git项目搭建"></a>Git项目搭建</h2><blockquote>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/640.jpg" alt="640" style="zoom: 67%;">
+<h1>Git项目搭建</h1>
+<blockquote>
 <p>创建工作目录与常用指令</p>
 </blockquote>
 <p>工作目录（WorkSpace)一般就是你希望Git帮助你管理的文件夹，可以是你项目的目录，也可以是一个空目录，建议不要有中文。</p>
 <p>日常使用只要记住下图6个命令：</p>
-<p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/640.png" alt="640" style="zoom:80%;"></p>
+<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/640.png" alt="640" style="zoom:80%;">
 <blockquote>
 <p>本地仓库搭建</p>
 </blockquote>
@@ -402,7 +418,8 @@
 <p>1、另一种方式是克隆远程目录，由于是将远程服务器上的仓库完全镜像一份至本地！</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆一个项目和它的整个代码历史(版本信息)</span></span><br><span class="line">$ git <span class="built_in">clone</span> [url]</span><br></pre></td></tr></table></figure>
 <p>2、去 gitee 或者 github 上克隆一个测试！</p>
-<h2 id="Git文件操作"><a href="#Git文件操作" class="headerlink" title="Git文件操作"></a>Git文件操作</h2><blockquote>
+<h1>Git文件操作</h1>
+<blockquote>
 <p>文件的四种状态</p>
 </blockquote>
 <p>版本控制就是对文件的版本控制，要对文件进行修改、提交等操作，首先要知道文件当前在什么状态，不然可能会提交了现在还不想提交的文件，或者要提交的文件没提交上。</p>
@@ -421,7 +438,7 @@
 <p>忽略文件</p>
 </blockquote>
 <p>有些时候我们不想把某些文件纳入版本控制中，比如数据库文件，临时文件，设计文件等</p>
-<p>在主目录下建立”.gitignore”文件，此文件有如下规则：</p>
+<p>在主目录下建立&quot;.gitignore&quot;文件，此文件有如下规则：</p>
 <ol>
 <li>忽略文件中的空行或以井号（#）开始的行将会被忽略。</li>
 <li>可以使用Linux通配符。例如：星号（*）代表任意多个字符，问号（？）代表一个字符，方括号（[abc]）代表可选字符范围，大括号（{string1,string2,…}）代表可选的字符串等。</li>
@@ -430,19 +447,28 @@
 <li>如果名称的最后面是一个路径分隔符（/），表示要忽略的是此目录下该名称的子目录，而非文件（默认文件或目录都忽略）。</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#为注释</span><br><span class="line">*.txt        #忽略所有 .txt结尾的文件,这样的话上传就不会被选中！</span><br><span class="line">!lib.txt     #但lib.txt除外</span><br><span class="line">/temp        #仅忽略项目根目录下的TODO文件,不包括其它目录temp</span><br><span class="line">build/       #忽略build/目录下的所有文件</span><br><span class="line">doc/*.txt    #会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span><br></pre></td></tr></table></figure>
-<h2 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h2><p>远程仓库可以选用Github或者Gitee等常用仓库，设置本机绑定SSH公钥，实现免密码登录等操作本处不做详细介绍。</p>
+<h1>远程仓库</h1>
+<p>远程仓库可以选用Github或者Gitee等常用仓库，设置本机绑定SSH公钥，实现免密码登录等操作本处不做详细介绍。</p>
 <p>1、新建项目，绑定git。</p>
 <p>2、修改文件，使用IDEA操作git。</p>
 <ul>
-<li>添加到暂存区</li>
-<li>commit 提交</li>
-<li>push到远程仓库</li>
+<li>
+<p>添加到暂存区</p>
+</li>
+<li>
+<p>commit 提交</p>
+</li>
+<li>
+<p>push到远程仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</span><br><span class="line">#如果本地分支名与远程分支名相同，则可以省略冒号：</span><br><span class="line">git push &lt;远程主机名&gt; &lt;本地分支名&gt;</span><br><span class="line"></span><br><span class="line">#eg:以下命令将本地的 master 分支推送到 origin 主机的 master 分支</span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <p>3、提交测试</p>
-<h2 id="说明：GIT分支"><a href="#说明：GIT分支" class="headerlink" title="说明：GIT分支"></a>说明：GIT分支</h2><p>分支在GIT中相对较难，分支就是科幻电影里面的平行宇宙，如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，我们就需要处理一些问题了！</p>
+<h1>说明：GIT分支</h1>
+<p>分支在GIT中相对较难，分支就是科幻电影里面的平行宇宙，如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，我们就需要处理一些问题了！</p>
 <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/235235.png" alt="235235"></p>
 <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/54675.png" alt="54675"></p>
-<p>git分支中常用指令： </p>
+<p>git分支中常用指令：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 列出所有本地分支</span><br><span class="line">git branch</span><br><span class="line"></span><br><span class="line"># 列出所有远程分支</span><br><span class="line">git branch -r</span><br><span class="line"></span><br><span class="line"># 新建一个分支，但依然停留在当前分支</span><br><span class="line">git branch [branch-name]</span><br><span class="line"></span><br><span class="line"># 新建一个分支，并切换到该分支</span><br><span class="line">git checkout -b [branch]</span><br><span class="line"></span><br><span class="line"># 合并指定分支到当前分支</span><br><span class="line">$ git merge [branch]</span><br><span class="line"></span><br><span class="line"># 删除分支</span><br><span class="line">$ git branch -d [branch-name]</span><br><span class="line"></span><br><span class="line"># 删除远程分支</span><br><span class="line">$ git push origin --delete [branch-name]</span><br><span class="line">$ git branch -dr [remote/branch]</span><br></pre></td></tr></table></figure>
 <p>IDEA中操作</p>
 <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/235423.png" alt="235423"></p>
@@ -455,9 +481,22 @@
     
     
 
+      
+      <div>
+        
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:16px;">---------- End~~ <i class="fa fa-paw"></i> 撒花ฅ&gt;ω&lt;*ฅ花撒 ----------</div>
+    
+</div>
+
+        
+       </div>
+
+
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Git/" rel="tag"> Git</a>
+              <a href="/tags/Git/" rel="tag"><i class="fa fa-tag"></i>  Git</a>
           </div>
           <script type="text/javascript">
             var tagsall=document.getElementsByClassName("post-tags")
@@ -584,7 +623,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">版本控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">Git环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E5%9F%BA%E6%9C%AC%E7%90%86%E8%AE%BA"><span class="nav-number">1.3.</span> <span class="nav-text">Git基本理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA"><span class="nav-number">1.4.</span> <span class="nav-text">Git项目搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">1.5.</span> <span class="nav-text">Git文件操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.6.</span> <span class="nav-text">远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E%EF%BC%9AGIT%E5%88%86%E6%94%AF"><span class="nav-number">1.7.</span> <span class="nav-text">说明：GIT分支</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">版本控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">Git环境配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">Git基本理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">Git项目搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">Git文件操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">远程仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">说明：GIT分支</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -658,8 +697,6 @@
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     <span title="站点阅读时长">9 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
-  </div>
 
         
 
