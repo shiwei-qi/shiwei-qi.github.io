@@ -282,7 +282,7 @@
 
       
         <img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/1576218250849.png" alt="1576218250849" style="zoom: 67%;">
-<h1>版本控制</h1>
+<h1 id="ban-ben-kong-zhi">版本控制</h1>
 <blockquote>
 <p>版本控制是一种在开发过程中用于管理我们对文件、目录工程等内容的修改历史，方便查看更改历史记录，备份以便恢复以前的版本的软件工程技术。</p>
 </blockquote>
@@ -314,7 +314,7 @@
 <p><strong>SVN</strong>是集中式版本控制系统，版本库是集中放在中央服务器的，而工作的时候，用的都是自己的电脑，所以首先要从中央服务器得到最新的版本，然后工作，完成工作后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，对网络带宽要求较高。</p>
 <p><strong>Git</strong>是分布式版本控制系统，没有中央服务器，每个人的电脑就是一个完整的版本库，工作的时候不需要联网了，因为版本都在自己电脑上。协同的方法是这样的：比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。Git是目前世界上最先进的分布式版本控制系统。</p>
 <p>==Git是目前世界上最先进的分布式版本控制系统==</p>
-<h1>Git环境配置</h1>
+<h1 id="git-huan-jing-pei-zhi">Git环境配置</h1>
 <blockquote>
 <p>软件下载</p>
 </blockquote>
@@ -367,7 +367,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;user&quot;</span>  <span class="comment">#名称</span></span><br><span class="line">git config --global user.email user@XXX.com   <span class="comment">#邮箱</span></span><br></pre></td></tr></table></figure>
 <p>只需要做一次这个设置，如果你传递了–global 选项，因为Git将总是会使用该信息来处理你在系统中所做的一切操作。如果你希望在一个特定的项目中使用不同的名称或e-mail地址，你可以在该项目中运行该命令而不要–global选项。总之–global为全局配置，不加为某个项目的特定配置。</p>
 <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/image-20220506161314084.png" alt="image-20220506161314084"></p>
-<h1>Git基本理论</h1>
+<h1 id="git-ji-ben-li-lun">Git基本理论</h1>
 <blockquote>
 <p>三个区域</p>
 </blockquote>
@@ -398,7 +398,7 @@
 <p>３、将暂存区域的文件提交到git仓库。</p>
 <p>因此，git管理的文件有三种状态：已修改（modified）,已暂存（staged）,已提交(committed)</p>
 <img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/640.jpg" alt="640" style="zoom: 67%;">
-<h1>Git项目搭建</h1>
+<h1 id="git-xiang-mu-da-jian">Git项目搭建</h1>
 <blockquote>
 <p>创建工作目录与常用指令</p>
 </blockquote>
@@ -418,7 +418,7 @@
 <p>1、另一种方式是克隆远程目录，由于是将远程服务器上的仓库完全镜像一份至本地！</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆一个项目和它的整个代码历史(版本信息)</span></span><br><span class="line">$ git <span class="built_in">clone</span> [url]</span><br></pre></td></tr></table></figure>
 <p>2、去 gitee 或者 github 上克隆一个测试！</p>
-<h1>Git文件操作</h1>
+<h1 id="git-wen-jian-cao-zuo">Git文件操作</h1>
 <blockquote>
 <p>文件的四种状态</p>
 </blockquote>
@@ -447,7 +447,7 @@
 <li>如果名称的最后面是一个路径分隔符（/），表示要忽略的是此目录下该名称的子目录，而非文件（默认文件或目录都忽略）。</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#为注释</span><br><span class="line">*.txt        #忽略所有 .txt结尾的文件,这样的话上传就不会被选中！</span><br><span class="line">!lib.txt     #但lib.txt除外</span><br><span class="line">/temp        #仅忽略项目根目录下的TODO文件,不包括其它目录temp</span><br><span class="line">build/       #忽略build/目录下的所有文件</span><br><span class="line">doc/*.txt    #会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</span><br></pre></td></tr></table></figure>
-<h1>远程仓库</h1>
+<h1 id="yuan-cheng-cang-ku">远程仓库</h1>
 <p>远程仓库可以选用Github或者Gitee等常用仓库，设置本机绑定SSH公钥，实现免密码登录等操作本处不做详细介绍。</p>
 <p>1、新建项目，绑定git。</p>
 <p>2、修改文件，使用IDEA操作git。</p>
@@ -464,7 +464,7 @@
 </li>
 </ul>
 <p>3、提交测试</p>
-<h1>说明：GIT分支</h1>
+<h1 id="shuo-ming-git-fen-zhi">说明：GIT分支</h1>
 <p>分支在GIT中相对较难，分支就是科幻电影里面的平行宇宙，如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，我们就需要处理一些问题了！</p>
 <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/235235.png" alt="235235"></p>
 <p><img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/54675.png" alt="54675"></p>
@@ -560,8 +560,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/" rel="prev" title="Typora和MarkDown相关教程">
-      <i class="fa fa-chevron-left"></i> Typora和MarkDown相关教程
+    <a href="/2022/05/06/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/" rel="prev" title="Typora使用教程及MarkDown语法">
+      <i class="fa fa-chevron-left"></i> Typora使用教程及MarkDown语法
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -623,7 +623,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">版本控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">Git环境配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">Git基本理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">Git项目搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">Git文件操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">远程仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">说明：GIT分支</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ban-ben-kong-zhi"><span class="nav-number">1.</span> <span class="nav-text">版本控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-huan-jing-pei-zhi"><span class="nav-number">2.</span> <span class="nav-text">Git环境配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-ji-ben-li-lun"><span class="nav-number">3.</span> <span class="nav-text">Git基本理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-xiang-mu-da-jian"><span class="nav-number">4.</span> <span class="nav-text">Git项目搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-wen-jian-cao-zuo"><span class="nav-number">5.</span> <span class="nav-text">Git文件操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yuan-cheng-cang-ku"><span class="nav-number">6.</span> <span class="nav-text">远程仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shuo-ming-git-fen-zhi"><span class="nav-number">7.</span> <span class="nav-text">说明：GIT分支</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
