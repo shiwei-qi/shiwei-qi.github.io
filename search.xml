@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>TCP三次握手和四次挥手</title>
-    <url>/2022/04/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h1 id="jian-jie-tcp-san-ci-wo-shou-he-si-ci-hui-shou">简解TCP三次握手和四次挥手</h1>
-<p>三次握手发生在客户端连接的时候，当调用connect(), 底层会通过TCP协议进行三次握手</p>
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git及相关操作</title>
     <url>/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<img src="/2022/05/06/Git%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/1576218250849.png" alt="1576218250849" style="zoom: 67%;">
@@ -457,6 +444,19 @@ $$<br>
       </categories>
       <tags>
         <tag>MarkDown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP三次握手和四次挥手</title>
+    <url>/2022/04/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="jian-jie-tcp-san-ci-wo-shou-he-si-ci-hui-shou">简解TCP三次握手和四次挥手</h1>
+<p>三次握手发生在客户端连接的时候，当调用connect(), 底层会通过TCP协议进行三次握手</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
