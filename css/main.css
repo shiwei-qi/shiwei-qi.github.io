@@ -1,10 +1,3 @@
-.post {
-  margin-top: 60px;
-  margin-bottom: 60px;
-  padding: 25px;
-  -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
-  -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
-}
 :root {
   --body-bg-color: #f5f7f9;
   --content-bg-color: #fff;
@@ -1272,7 +1265,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #abff0a;
+  background: #ac4b82;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1653,7 +1646,13 @@ pre .javascript .function {
   margin-top: 40px;
   text-align: center;
 }
-.use-motion .post-block,
+.use-motion .post-block {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding: 25px;
+  -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.9);
+  -moz-box-shadow: 0 0 5px rgba(202,203,204,0.9);
+}
 .use-motion .pagination,
 .use-motion .comments {
   opacity: 0;
@@ -2827,4 +2826,26 @@ a.category-list-link:before {
   font: normal normal normal 14px/1 FontAwesome;
   font-size: 15px;
   line-height: 18px;
+}
+body {
+  background: url("/images/bbgd.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 100% 100%;
+}
+.content-wrap {
+  opacity: 0.9;
+}
+.post-block {
+  background: rgba(255,255,255,0.7) none repeat scroll !important;
+}
+.sidebar {
+  opacity: 0.8;
+}
+.header-inner {
+  background: rgba(255,255,255,0.7);
+}
+.popup {
+  opacity: 0.8;
 }
