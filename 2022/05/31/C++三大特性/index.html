@@ -24,12 +24,18 @@
 <meta property="og:url" content="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">
 <meta property="og:site_name" content="zmqNut">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/35434.png">
+<meta property="og:image" content="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/2353.png">
+<meta property="og:image" content="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/1234235.png">
+<meta property="og:image" content="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/2345.png">
+<meta property="og:image" content="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/image-20220530213244041.png">
 <meta property="article:published_time" content="2022-05-31T05:23:02.000Z">
-<meta property="article:modified_time" content="2022-05-30T13:23:44.248Z">
+<meta property="article:modified_time" content="2022-05-30T13:37:59.287Z">
 <meta property="article:author" content="shiwei-qi">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="面向对象">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/35434.png">
 
 <link rel="canonical" href="https://shiwei-qi.github.io/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">
 
@@ -221,7 +227,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-05-30 21:23:02 / 修改时间：05:23:44" itemprop="dateCreated datePublished" datetime="2022-05-30T21:23:02-08:00">2022-05-30</time>
+              <time title="创建时间：2022-05-30 21:23:02 / 修改时间：05:37:59" itemprop="dateCreated datePublished" datetime="2022-05-30T21:23:02-08:00">2022-05-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,14 +249,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>5 分钟</span>
             </span>
             <div class="post-description">本文章简要总结C++三大特性即封装、继承、多态。</div>
 
@@ -263,7 +269,117 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p><img src="/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/35434.png" alt="35434"></p>
+<h1 id="feng-zhuang">封装</h1>
+<p>简单的来说就是一个类包装了一些数据以及操作这些数据的代码的逻辑实体。在一个类对象内部，某些操作或者数据可以是私有的，也可以是公有的。私有的是不能被外界锁访问的。通过这种方式，对类的内部成员提供了不同级别的保护，尽可能的去隐藏掉内部细节，只提供给对外的一些接口，用户无需知道对象内部细节，只通过接口来访问。</p>
+<ul>
+<li>良好的封装可以减少耦合</li>
+<li>可以对成员进行更精确的控制</li>
+</ul>
+<h2 id="fang-wen-shuo-ming-fu">访问说明符</h2>
+<p><code>public</code>: 该访问说明符之后的各个成员都可以被公开访问，简单来说就是无论类内还是类外都可以访问。</p>
+<p><code>protected</code>：该访问说明符之后的各个成员可以被类内、派生类或者友元的成员访问，但类外不能访问。</p>
+<p><code>private</code>: 该访问说明符之后的各个成员只能被类内成员或者友元的成员访问，不能被从类外或者派生类中访问。</p>
+<blockquote>
+<p>在c++中，类（class）的所有成员的默认访问权限是私有（private），而结构（struct）的所有成员的默认访问权限是公共（public）</p>
+</blockquote>
+<h2 id="zai-shi-li-hua-bian-liang-shi-she-ding-chu-shi-zhi">在实例化变量时设定初始值</h2>
+<p>为完成这种操作，需要定义<strong>默认构造函数</strong>（Default constructor）。若无显示的构造函数，则编译器认为该类有隐式的默认构造函数。即若无定义任何构造函数，则编译器会自动生成一个默认构造函数，并会根据成员元素的类型进行初始化（与定义内置类型变量相同）。</p>
+<p>在这种情况下，成员元素都是未初始化的，访问未初始化的变量的结果是未定义的（也就是说并不知道会返回何值）。</p>
+<p>一般来说，默认构造函数不带参，当然也可以被重载。如果已经定义了构造函数，且构造函数的参数列表不为空，那么编译器便不会再生成无参数的默认构造函数。，这可能会使试图以默认方法构造变量的行为编译失败。</p>
+<p>使用C++11或以上时，可以使用<code>&#123;&#125;</code>进行变量初始化。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">object</span>&#123;</span><br><span class="line">    <span class="type">int</span> weight;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">    <span class="built_in">object</span>() &#123;</span><br><span class="line">        weight = <span class="number">0</span>;</span><br><span class="line">        value = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">object</span>(<span class="type">int</span>  _weight = <span class="number">0</span>, <span class="type">int</span> _value = <span class="number">0</span>) &#123;</span><br><span class="line">        weight = _weight;</span><br><span class="line">        value = _value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">object A;		<span class="comment">//ok</span></span><br><span class="line"><span class="function">object <span class="title">B</span><span class="params">(<span class="number">1</span>, <span class="number">2</span>)</span></span>; <span class="comment">//ok</span></span><br><span class="line">object C&#123;<span class="number">1</span>, <span class="number">2</span>&#125;; <span class="comment">//ok,(C++11)</span></span><br></pre></td></tr></table></figure>
+<h3 id="strong-bi-xu-shi-yong-lie-biao-chu-shi-hua-de-qing-kuang-strong"><strong>必须使用列表初始化的情况</strong></h3>
+<p>使用初始化列表能够提高程序运行效率</p>
+<ul>
+<li><code>const</code>常量成员，因为常量只能初始化不能赋值，所以必须放在初始化列表里面</li>
+<li>引用类型，引用必须在定义的时候初始化，并且不能重新赋值，所以也要写在初始化列表里面</li>
+<li>没有默认构造函数的类类型，因为使用初始化列表可以不必调用默认构造函数来初始化，而是直接调用拷贝构造函数初始化</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Test1</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Test1</span>(<span class="type">int</span> a):<span class="built_in">i</span>(a)&#123;&#125;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test2</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Test1 test1 ;</span><br><span class="line">	<span class="built_in">Test2</span>(Test1 &amp;t1)</span><br><span class="line">	&#123;test1 = t1;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>以上代码无法通过编译，因为Test2的构造函数中<code>test1 = t1</code>这一行实际上分成两步执行：<br>
+调用 Test1 的默认构造函数来初始化 test1<br>
+由于Test1没有默认的构造函数，所以<code>test1 = t1</code> 无法执行，故而编译错误。</p>
+<p>正确的代码如下，使用初始化列表代替赋值操作：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Test2</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Test1 test1 ;</span><br><span class="line">	<span class="built_in">Test2</span>(<span class="type">int</span> x): <span class="built_in">test1</span>(x)&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="xiao-hui">销毁</h2>
+<p>这是不可避免的问题。每一个变量都将在作用范围结束走向销毁。但对于已经指向了动态申请的内存的指针来说，该指针在销毁时不会自动释放所指向的内存，需要手动释放动态内存。如果结构体的成员元素包含指针，同样会遇到这种问题。需要用到析构函数来手动释放动态内存。</p>
+<p>析构函数(Destructor)将会在该变量被销毁时被调用。重载的方法形同构造函数，但需要在前加<code>~</code></p>
+<h2 id="you-yuan">友元</h2>
+<p>友元（friend）：使用<code>friend</code>关键字修饰某个函数或者类。可以使得在被修饰者不成为成员函数或者成员类的情况下，访问该类的私有（<code>private</code>）或者受保护（<code>protected</code>)成员。简单来说就是只要带有这个类的friend标记，就可以访问私有或受保护的成员元素。</p>
+<h1 id="ji-cheng">继承</h1>
+<p>使用已经存在的类作为基础去建立一个新类，新类的定义可以增加新的功能，也可以用父类的功能，但是不能选择性的继承，可以解决代码的复用问题，可以提高效率。采用继承的方式，继承原有的类，并在此基础上新增一些自己特有的成员与方法，称被继承的类为基类（父类），继承下来的类叫派生类（子类）。</p>
+<ul>
+<li>子类可以拥有父类非私有的属性和方法</li>
+<li>子类可以对父类进行扩展</li>
+<li>子类可以重写父类的方法</li>
+</ul>
+<h2 id="strong-tong-guo-tu-lai-li-jie-ji-cheng-strong"><strong>通过图来理解继承</strong></h2>
+<p>定义一个基类：Person类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> <span class="comment">//Person</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Person</span>();<span class="comment">//默以构造</span></span><br><span class="line">	<span class="function"><span class="type">char</span>* <span class="title">GetName</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">SetName</span><span class="params">(<span class="type">char</span> *name)</span></span>;</span><br><span class="line">	<span class="keyword">virtual</span> ~Person（）;<span class="comment">//默以折构</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">char</span> *m_name;</span><br><span class="line">	<span class="type">int</span> m age;</span><br><span class="line">	<span class="type">bool</span> m_gender;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>定义完一个Person类作为基类后，再定义一个学生类，一个教师类来继承Person类如下图：</p>
+<img src="/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/2353.png" alt="2353" style="zoom:67%;">
+<p>从图中可知。Student类，Teacher类继承了Person类，我只把派生类中的新成员与新方法写了出来，但实际上，子类继承了父类的所有成员与方法。值得注意的是，<strong>子类虽然继承了父类的私有成员，但却不能直接访问</strong>，<strong>须通过父类继承下来的方法来获取</strong></p>
+<h2 id="pai-sheng-lei-gou-zao-han-shu-de-xie-fa">派生类构造函数的写法</h2>
+<p>派生类虽然继承了基类，但却需要自己的构造函数与析构函数，因为子类中有特有的成员，光靠父类的构造函数是无法进行初始化的，派生类的构造函数有下面几种写法</p>
+<ul>
+<li>使用基类的默认构造</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Student</span> (形参列表):</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//派生类中的新成员初始化</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，程序会先调用基类的默认构造函数，在调用子类的构造函数；</p>
+<ul>
+<li>调用基类重载的构造函数</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Teacher</span> (形参列表):基类名（实参列表）</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//派生类中的新成员初始化</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译器会根据实参列表选择基类相应的构造函数进行调用，其实参来自于Teacher的形参列表；</p>
+<h2 id="san-chong-ji-cheng-fang-shi">三种继承方式</h2>
+<p>前面提到了公有继承，也提到了基类的私有成员子类是无法访问的，下面就详细介绍继承方式以及相关成员的访问权限：</p>
+<img src="/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/1234235.png" alt="1234235" style="zoom:75%;">
+<p>继承方式：C++默认继承方式是<strong>私有继承</strong></p>
+<p><img src="/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/2345.png" alt="2345"></p>
+<p>也就是说，基类的私有成员子类无论使用那种那个继承方式都不可以访问，而采用保护继承时，基类的共有与保护属性的变量都会变为保护属性。</p>
+<h1 id="duo-tai">多态</h1>
+<h2 id="duo-tai-yuan-li">多态原理</h2>
+<p>C++支持两种多态性：编译时多态性，运行时多态性。</p>
+<p><strong>a.编译时多态性：通过重载函数实现</strong></p>
+<p><strong>b.运行时多态性：通过虚函数实现。</strong></p>
+<p>C++的多态性，一言以蔽之就是：</p>
+<p>在基类的函数前加上<strong>virtual</strong>关键字，在派生类中重写该函数，运行时将会根据所指对象的实际类型来调用相应的函数，如果对象类型是派生类，就调用派生类的函数，如果对象类型是基类，就调用基类的函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot; Base::func()&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son1</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot; Son1::func()&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son2</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Base *base = <span class="keyword">new</span> Son1;</span><br><span class="line">    base-&gt;<span class="built_in">fun</span>();</span><br><span class="line">    base = <span class="keyword">new</span> Son2;</span><br><span class="line">    base-&gt;<span class="built_in">fun</span>();</span><br><span class="line">    <span class="keyword">delete</span> base;</span><br><span class="line">    base = <span class="literal">NULL</span>;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Son1::func()</span></span><br><span class="line"><span class="comment">// Base::func()</span></span><br></pre></td></tr></table></figure>
+<p>Base为基类，其中的函数为虚函数。子类1继承并重写了基类的函数，子类2继承基类但没有重写基类的函数，从结果分析子类体现了多态性，那么为什么会出现多态性，其底层的原理是什么？这里需要引出<strong>虚表</strong>和<strong>虚基表指针</strong>的概念。</p>
+<p><strong>虚表</strong>：虚函数表的缩写，类中含有virtual关键字修饰的方法时，编译器会自动生成虚表</p>
+<p><strong>虚表指针</strong>：在含有虚函数的类实例化对象时，对象地址的前四个字节存储的指向虚表的指针</p>
+<p><img src="/2022/05/31/C++%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/image-20220530213244041.png" alt="image-20220530213244041"></p>
+<p><strong>实现多态的过程：</strong></p>
+<ol>
+<li>
+<p>编译器在发现基类中有虚函数时，会自动<strong>为每个含有虚函数的类生成一份虚表</strong>，该表是一个一维数组，虚表里<strong>保存了虚函数的入口地址</strong></p>
+</li>
+<li>
+<p>编译器会在<strong>每个对象</strong>的<strong>前四个字节</strong>中保存一个虚表指针，即vptr，指向对象所属类的虚表。在构造时，根据对象的类型去初始化虚指针vptr，从而让vptr指向正确的虚表，从而在调用虚函数时，能找到正确的函数</p>
+</li>
+<li>
+<p>所谓的合适时机，在派生类定义对象时，程序运行会自动调用构造函数，在<strong>构造函数中创建虚表</strong>并对虚表初始化。在构造子类对象时，会先调用父类的构造函数，此时，编译器只“看到了”父类，并为父类对象初始化虚表指针，令它指向父类的虚表；当调用子类的构造函数时，为子类对象初始化虚表指针，令它指向子类的虚表</p>
+</li>
+<li>
+<p>当派生类对基类的虚函数没有重写时，派生类的虚表指针指向的是基类的虚表；当派生类对基类的虚函数重写时，派生类的虚表指针指向的是自身的虚表；当派生类中有自己的虚函数时，在自己的虚表中将此虚函数地址添加在后面</p>
+<p>这样指向派生类的基类指针在运行时，就可以根据派生类对虚函数重写情况动态的进行调用，从而实现多态性。</p>
+</li>
+</ol>
+<p>​	C++中虚函数表位于只读数据段（<code>.rodata</code>），也就是C++内存模型中的常量区；而虚函数则位于代码段（<code>.text</code>），也就是C++内存模型中的代码区</p>
+<h2 id="dong-tai-bang-ding">动态绑定</h2>
+<p>**静态绑定：**编译时绑定，通过对象调用</p>
+<p>**动态绑定：**运行时绑定，通过地址实现</p>
+<p>只有采用“指针-&gt;函数()”或“引用变量.函数()”的方式调用C++类中的虚函数才会执行动态绑定。对于C++中的非虚函数，因为其不具备动态绑定的特征，所以不管采用什么样的方式调用，都不会执行动态绑定。</p>
+<p>即所谓动态绑定，就是<strong>基类的指针或引用</strong>有可能指向不同的派生类对象，对于非虚函数，执行时实际调用该函数的对象类型即为该指针或引用的静态类型（基类类型）；而对于虚函数，执行时实际调用该函数的对象类型为该指针或引用所指对象的实际类型。比如下面代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">   <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      cout &lt;&lt; <span class="string">&quot;func() in Base.&quot;</span> &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     cout &lt;&lt; <span class="string">&quot;test() in Base.&quot;</span> &lt;&lt; endl;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     cout &lt;&lt; <span class="string">&quot;func() in Derived.&quot;</span> &lt;&lt; endl;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     cout &lt;&lt; <span class="string">&quot;test() in Derived.&quot;</span> &lt;&lt; endl; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  Base* b;</span><br><span class="line">  b = <span class="keyword">new</span> <span class="built_in">Derived</span>();</span><br><span class="line">  b-&gt;<span class="built_in">func</span>();</span><br><span class="line">  b-&gt;<span class="built_in">test</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//func() in Base.</span></span><br><span class="line"><span class="comment">//test() in Derived.</span></span><br></pre></td></tr></table></figure>
+<p>b是一个基类指针，它指向了一个派生类对象，基类Base里面有两个函数，其中test为虚函数，func为非虚函数。因此，对于test就表现为动态绑定，实际调用的是派生类对象中的test，而func为非虚函数，因此它表现为静态绑定，也就是说指针类型是什么，就会调用该类型相应的函数</p>
+<p><strong>虚函数是动态绑定的基础；动态绑定是实现运行时多态的基础</strong></p>
+<p>要触发 动态绑定，需满足两个条件：</p>
+<p>(1) 只有<strong>虚函数</strong>才能进行动态绑定，非虚函数不进行动态绑定。</p>
+<p>(2) 必须<strong>通过基类类型的引用或指针进行函数调用</strong>。</p>
+<p>通过基类指针或基类引用做形参，当实参传入不同的派生类(或基类)的<strong>指针</strong>或<strong>引用</strong>，在函数内部触发 动态绑定，从而来 运行时 实现多态的。</p>
+
     </div>
 
     
@@ -430,6 +546,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#feng-zhuang"><span class="nav-number">1.</span> <span class="nav-text">封装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#fang-wen-shuo-ming-fu"><span class="nav-number">1.1.</span> <span class="nav-text">访问说明符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zai-shi-li-hua-bian-liang-shi-she-ding-chu-shi-zhi"><span class="nav-number">1.2.</span> <span class="nav-text">在实例化变量时设定初始值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#strong-bi-xu-shi-yong-lie-biao-chu-shi-hua-de-qing-kuang-strong"><span class="nav-number">1.2.1.</span> <span class="nav-text">必须使用列表初始化的情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xiao-hui"><span class="nav-number">1.3.</span> <span class="nav-text">销毁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#you-yuan"><span class="nav-number">1.4.</span> <span class="nav-text">友元</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ji-cheng"><span class="nav-number">2.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strong-tong-guo-tu-lai-li-jie-ji-cheng-strong"><span class="nav-number">2.1.</span> <span class="nav-text">通过图来理解继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pai-sheng-lei-gou-zao-han-shu-de-xie-fa"><span class="nav-number">2.2.</span> <span class="nav-text">派生类构造函数的写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#san-chong-ji-cheng-fang-shi"><span class="nav-number">2.3.</span> <span class="nav-text">三种继承方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#duo-tai"><span class="nav-number">3.</span> <span class="nav-text">多态</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#duo-tai-yuan-li"><span class="nav-number">3.1.</span> <span class="nav-text">多态原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dong-tai-bang-ding"><span class="nav-number">3.2.</span> <span class="nav-text">动态绑定</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -495,13 +612,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">86k</span>
+    <span title="站点总字数">91k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:18</span>
+    <span title="站点阅读时长">1:23</span>
 </div>
 
         
