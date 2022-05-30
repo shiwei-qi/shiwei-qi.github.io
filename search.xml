@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C++11实现线程池</title>
+    <url>/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<p><img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/978956.jpg" alt="978956"></p>
+<h1 id="chang-jing">场景</h1>
+<p>大多数网络服务器单位时间内必须处理数目巨大的连接请求，但处理时间却相对较短。传统多线程方案中我们采用的服务器模型则是一旦接受到请求之后，即创建一个新的线程，由该线程执行任务。任务执行完毕后，线程退出，这就是是“即时创建，即时销毁”的策略。尽管与创建进程相比，创建线程的时间已经大大的缩短，但是如果提交给线程的任务是执行时间较短，而且执行次数极其频繁，那么服务器将处于不停的创建线程，销毁线程的状态。</p>
+<p>除此之外，线程池能够减少创建的线程个数。通常线程池所允许的并发线程是有上界的，如果同时需要并发的线程数超过上界，那么一部分线程将会等待。而传统方案中，如果同时请求数目为10000，那么最坏情况下，系统可能需要产生10000个线程。尽管这不是一个很大的数目，但是也有部分机器可能达不到这种要求.</p>
+<h1 id="xian-cheng-chi-de-ding-yi">线程池的定义</h1>
+<p>事先创建若干空闲的线程放入一个池中（容器），当一个任务提交到线程池时，线程池就会启动一个空闲的线程去处理任务，当任务结束后，该线程并不会死亡，而是再次返回线程池中成为空闲状态，等待执行下一个任务。</p>
+<p><img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f7468756d622f302f30632f5468726561645f706f6f6c2e7376672f35383070782d5468726561645f706f6f6c2e7376672e706e67.png" alt="img"></p>
+<h1 id="you-dian">优点</h1>
+<ol>
+<li><strong>降低资源消耗</strong>：通过重复利用已创建的线程降低线程创建和销毁造成的消耗。</li>
+<li><strong>提高响应速度</strong>：当任务到达时，可以不需要等待线程创建就能立即执行。</li>
+<li><strong>提高线程的可管理性</strong>：线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，监控和调优。</li>
+</ol>
+<p>事实上，线程池并不是万能的。它有其特定的使用场合。线程池致力于减少线程本身的开销对应用所产生的影响，这是有前提的，前提就是线程本身开销与线程执行任务相比不可忽略。如果线程本身的开销相对于线程任务执行开销而言是可以忽略不计的，那么此时线程池所带来的好处是不明显的，比如对于FTP服务器以及Telnet服务器，通常传送文件的时间较长，开销较大，那么此时，我们采用线程池未必是理想的方法，我们可以选择“即时创建，即时销毁”的策略</p>
+<h1 id="xian-cheng-chi-gong-zuo-de-ji-chong-qing-kuang">线程池工作的几种情况</h1>
+<p>按任务队列和线程池大小可分成四种情况：</p>
+<ul>
+<li>
+<p>没有任务，线程池中任务队列为空，啥也不做</p>
+<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/3805f625e05f8e2d1d0b69910323d7a9.png" alt="空队列情况" style="zoom: 80%;">
+</li>
+<li>
+<p>添加小于等于线程池数量的任务，主线程添加任务后通知唤醒线程池中的线程开始取任务。此时任务缓冲队列还是空</p>
+<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/b72937b576e8e3e4a0b14ff5a9b3a1b9.png" alt="img" style="zoom:80%;">
+</li>
+<li>
+<p>添加大于线程池数量的任务，继续添加发现线程池用完，于是存入缓冲队列，工作线程空闲后主动从任务队列取任务执行，缓冲队列未满</p>
+</li>
+</ul>
+<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/3bc05a0abf3eff2c7e25427e1c2636bb.png" alt="任务数量大于线程池数量" style="zoom:80%;">
+<ul>
+<li>添加大于线程池数量的任务，且任务队列已满，当线程中线程用完，且任务缓冲队列已满，进入等待状态，等待任务缓冲队列通知</li>
+</ul>
+<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/4a50fc4f32e13a1761c2e687a58a83a4.png" alt="img" style="zoom:80%;">
+<h1 id="xian-cheng-chi-de-shi-xian">线程池的实现</h1>
+<p>使用C++11中的<code>bind</code>、<code>function</code>定义和调用任务处理函数和<code>std::thread</code>等实现的按照任务优先级先后处理的线程池。</p>
+<p><strong>ThreadPool.h</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _THREAD_POOL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _THREAD_POOL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;condition_variable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;future&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//function&lt;void()&gt; 可以认为是一个函数类型，接受任意原型是 void() 的函数，或是函数对象，或是匿名函数。</span></span><br><span class="line">    <span class="comment">//void() 意思是不带参数，没有返回值。</span></span><br><span class="line">    <span class="keyword">typedef</span> std::function&lt;<span class="type">void</span>()&gt; Task_type;<span class="comment">//任务类型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">taskPriorityE</span> &#123;LOW, MIDDLE, HIGH&#125;;<span class="comment">//优先级</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">typedef</span> std::pair&lt;taskPriorityE,Task_type&gt; TaskPair;<span class="comment">//任务优先级和任务类型组合的任务</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">ThreadPool</span>(<span class="type">int</span> threads_size = <span class="number">4</span>);<span class="comment">//默认线程池大小为4</span></span><br><span class="line">    ~<span class="built_in">ThreadPool</span>();</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">stop</span><span class="params">()</span></span>;<span class="comment">//终止线程池</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addTask</span><span class="params">(<span class="type">const</span> Task_type&amp;)</span></span>;<span class="comment">//添加任务</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addTask</span><span class="params">(<span class="type">const</span> TaskPair&amp;)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//禁用拷贝构造和赋值运算符</span></span><br><span class="line">    <span class="built_in">ThreadPool</span>(<span class="type">const</span> ThreadPool&amp; other) = <span class="keyword">delete</span>;</span><br><span class="line">    <span class="type">const</span> ThreadPool&amp; <span class="keyword">operator</span>=(<span class="type">const</span> ThreadPool&amp; other) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">is_started</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> m_started;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start</span><span class="params">()</span></span>;<span class="comment">//运行线程池</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">threadLoop</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Task_type <span class="title">take</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">typedef</span> std::vector&lt;std::thread*&gt; Threads_type;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//重载()操作符实现优先队列的比较操作</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">TaskPriorityCmp</span> &#123;</span><br><span class="line">        <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> TaskPair&amp; a, <span class="type">const</span> TaskPair&amp; b)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> a.first &gt; b.first;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> m_threads_size;<span class="comment">//线程池大小</span></span><br><span class="line">    std::vector&lt;std::thread*&gt; m_threads;<span class="comment">//线程池</span></span><br><span class="line">    std::priority_queue&lt;TaskPair, std::vector&lt;TaskPair&gt;, TaskPriorityCmp&gt;  m_tasks;<span class="comment">//任务队列</span></span><br><span class="line"></span><br><span class="line">    std::mutex m_mutex;<span class="comment">//STL队列不是线程安全的，因此需要结合互斥锁</span></span><br><span class="line">    std::condition_variable m_cond;<span class="comment">//条件变量</span></span><br><span class="line">    <span class="type">bool</span> m_started;<span class="comment">//是否开始</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//构造函数通过传入的参数，初始化线程池大小、锁、条件变量、是否开始，之后开始运行</span></span><br><span class="line">ThreadPool::<span class="built_in">ThreadPool</span>(<span class="type">int</span> threads_size)</span><br><span class="line">    :<span class="built_in">m_threads_size</span>(threads_size), <span class="built_in">m_mutex</span>(), <span class="built_in">m_cond</span>(), <span class="built_in">m_started</span>(<span class="literal">false</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">start</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//析构函数</span></span><br><span class="line">ThreadPool::~<span class="built_in">ThreadPool</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">stop</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//start中创建线程，并将线程和任务处理函数进行绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::start</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// assert 的作用是现计算表达式 expression,如果其值为假(即为0),那么它先向 stderr 打印一条出错信息,然后通过调用 abort 来终止程序运行。</span></span><br><span class="line">    <span class="built_in">assert</span>(m_threads.<span class="built_in">empty</span>());</span><br><span class="line">    <span class="built_in">assert</span>(!m_started);</span><br><span class="line">    m_started = <span class="literal">true</span>;</span><br><span class="line">    m_threads.<span class="built_in">reserve</span>(m_threads_size);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i &lt; m_threads_size; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//函数绑定bind函数用于把某种形式的参数列表与已知的函数进行绑定，形成新的函数</span></span><br><span class="line">        m_threads.<span class="built_in">push_back</span>(<span class="keyword">new</span> std::<span class="built_in">thread</span>(std::<span class="built_in">bind</span>(&amp;ThreadPool::threadLoop, <span class="keyword">this</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程池终止，通知所有线程，并将所有线程分离，最后将线程池清空</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::stop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    m_started = <span class="literal">false</span>;</span><br><span class="line">    m_cond.<span class="built_in">notify_all</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> it = m_threads.<span class="built_in">begin</span>(); it != m_threads.<span class="built_in">end</span>(); ++it)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//等待线程执行直到终止,其实就说join方法将挂起调用线程的执行，直到被调用的对象完成它的执行</span></span><br><span class="line">        (*it)-&gt;<span class="built_in">join</span>();</span><br><span class="line">        <span class="keyword">delete</span> *it;</span><br><span class="line">    &#125;</span><br><span class="line">    m_threads.<span class="built_in">clear</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//threadLoop中循环从队列中拿任务并执行</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::threadLoop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        Task_type task = <span class="built_in">take</span>();</span><br><span class="line">        <span class="keyword">if</span>(task)</span><br><span class="line">            <span class="built_in">task</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加任务</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::addTask</span><span class="params">(<span class="type">const</span> Task_type&amp; task)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    <span class="comment">//默认中等优先级</span></span><br><span class="line">    <span class="function">TaskPair <span class="title">taskPair</span><span class="params">(MIDDLE, task)</span></span>;</span><br><span class="line">    m_tasks.<span class="built_in">emplace</span>(taskPair);</span><br><span class="line">    m_cond.<span class="built_in">notify_one</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::addTask</span><span class="params">(<span class="type">const</span> TaskPair&amp; taskPair)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    m_tasks.<span class="built_in">emplace</span>(taskPair);</span><br><span class="line">    m_cond.<span class="built_in">notify_one</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从任务队列拿任务</span></span><br><span class="line"><span class="function">ThreadPool::Task_type <span class="title">ThreadPool::take</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    <span class="keyword">while</span>(m_tasks.<span class="built_in">empty</span>() &amp;&amp; m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        m_cond.<span class="built_in">wait</span>(lock);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Task_type task;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> size = m_tasks.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span>(!m_tasks.<span class="built_in">empty</span>() &amp;&amp; m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        task = m_tasks.<span class="built_in">top</span>().second;</span><br><span class="line">        m_tasks.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="built_in">assert</span>(size <span class="number">-1</span> == m_tasks.<span class="built_in">size</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> task;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>测试代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ThreadPool.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">mutex g_mutex;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MyFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="comment">//此锁是保证输出完整</span></span><br><span class="line">      <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(g_mutex)</span></span>;</span><br><span class="line">      std::cout &lt;&lt; <span class="string">&quot;MyFunc()&quot;</span>  &lt;&lt; <span class="string">&quot;at thread [&quot;</span> &lt;&lt; std::this_thread::<span class="built_in">get_id</span>() &lt;&lt; <span class="string">&quot;] output&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ThreadPool tp;</span><br><span class="line">  mutex mtx;</span><br><span class="line">    </span><br><span class="line">  <span class="comment">//这里只添加四次任务，因此任务队列实际大小为4</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i) &#123;</span><br><span class="line">      tp.<span class="built_in">addTask</span>(MyFunc);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">getchar</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="can-kao-lian-jie">参考链接</h1>
+<p><a href="https://github.com/progschj/ThreadPool">https://github.com/progschj/ThreadPool</a></p>
+<p><a href="https://github.com/attackoncs/MyThreadPool">https://github.com/attackoncs/MyThreadPool</a></p>
+<p><a href="https://github.com/mtrebi/thread-pool">https://github.com/mtrebi/thread-pool</a></p>
+]]></content>
+      <categories>
+        <category>C++</category>
+        <category>多线程编程</category>
+      </categories>
+      <tags>
+        <tag>线程池</tag>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++异常处理机制</title>
     <url>/2022/05/22/C++%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<img src="/2022/05/22/C++%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/wallhaven-rddgwm.png" alt="wallhaven-rddgwm">
@@ -132,63 +189,6 @@
       <tags>
         <tag>C++</tag>
         <tag>语法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++11实现线程池</title>
-    <url>/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<p><img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/978956.jpg" alt="978956"></p>
-<h1 id="chang-jing">场景</h1>
-<p>大多数网络服务器单位时间内必须处理数目巨大的连接请求，但处理时间却相对较短。传统多线程方案中我们采用的服务器模型则是一旦接受到请求之后，即创建一个新的线程，由该线程执行任务。任务执行完毕后，线程退出，这就是是“即时创建，即时销毁”的策略。尽管与创建进程相比，创建线程的时间已经大大的缩短，但是如果提交给线程的任务是执行时间较短，而且执行次数极其频繁，那么服务器将处于不停的创建线程，销毁线程的状态。</p>
-<p>除此之外，线程池能够减少创建的线程个数。通常线程池所允许的并发线程是有上界的，如果同时需要并发的线程数超过上界，那么一部分线程将会等待。而传统方案中，如果同时请求数目为10000，那么最坏情况下，系统可能需要产生10000个线程。尽管这不是一个很大的数目，但是也有部分机器可能达不到这种要求.</p>
-<h1 id="xian-cheng-chi-de-ding-yi">线程池的定义</h1>
-<p>事先创建若干空闲的线程放入一个池中（容器），当一个任务提交到线程池时，线程池就会启动一个空闲的线程去处理任务，当任务结束后，该线程并不会死亡，而是再次返回线程池中成为空闲状态，等待执行下一个任务。</p>
-<p><img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f7468756d622f302f30632f5468726561645f706f6f6c2e7376672f35383070782d5468726561645f706f6f6c2e7376672e706e67.png" alt="img"></p>
-<h1 id="you-dian">优点</h1>
-<ol>
-<li><strong>降低资源消耗</strong>：通过重复利用已创建的线程降低线程创建和销毁造成的消耗。</li>
-<li><strong>提高响应速度</strong>：当任务到达时，可以不需要等待线程创建就能立即执行。</li>
-<li><strong>提高线程的可管理性</strong>：线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，监控和调优。</li>
-</ol>
-<p>事实上，线程池并不是万能的。它有其特定的使用场合。线程池致力于减少线程本身的开销对应用所产生的影响，这是有前提的，前提就是线程本身开销与线程执行任务相比不可忽略。如果线程本身的开销相对于线程任务执行开销而言是可以忽略不计的，那么此时线程池所带来的好处是不明显的，比如对于FTP服务器以及Telnet服务器，通常传送文件的时间较长，开销较大，那么此时，我们采用线程池未必是理想的方法，我们可以选择“即时创建，即时销毁”的策略</p>
-<h1 id="xian-cheng-chi-gong-zuo-de-ji-chong-qing-kuang">线程池工作的几种情况</h1>
-<p>按任务队列和线程池大小可分成四种情况：</p>
-<ul>
-<li>
-<p>没有任务，线程池中任务队列为空，啥也不做</p>
-<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/3805f625e05f8e2d1d0b69910323d7a9.png" alt="空队列情况" style="zoom: 80%;">
-</li>
-<li>
-<p>添加小于等于线程池数量的任务，主线程添加任务后通知唤醒线程池中的线程开始取任务。此时任务缓冲队列还是空</p>
-<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/b72937b576e8e3e4a0b14ff5a9b3a1b9.png" alt="img" style="zoom:80%;">
-</li>
-<li>
-<p>添加大于线程池数量的任务，继续添加发现线程池用完，于是存入缓冲队列，工作线程空闲后主动从任务队列取任务执行，缓冲队列未满</p>
-</li>
-</ul>
-<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/3bc05a0abf3eff2c7e25427e1c2636bb.png" alt="任务数量大于线程池数量" style="zoom:80%;">
-<ul>
-<li>添加大于线程池数量的任务，且任务队列已满，当线程中线程用完，且任务缓冲队列已满，进入等待状态，等待任务缓冲队列通知</li>
-</ul>
-<img src="/2022/05/24/C++11%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E6%B1%A0/4a50fc4f32e13a1761c2e687a58a83a4.png" alt="img" style="zoom:80%;">
-<h1 id="xian-cheng-chi-de-shi-xian">线程池的实现</h1>
-<p>使用C++11中的<code>bind</code>、<code>function</code>定义和调用任务处理函数和<code>std::thread</code>等实现的按照任务优先级先后处理的线程池。</p>
-<p><strong>ThreadPool.h</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _THREAD_POOL_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _THREAD_POOL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;condition_variable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;future&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//function&lt;void()&gt; 可以认为是一个函数类型，接受任意原型是 void() 的函数，或是函数对象，或是匿名函数。</span></span><br><span class="line">    <span class="comment">//void() 意思是不带参数，没有返回值。</span></span><br><span class="line">    <span class="keyword">typedef</span> std::function&lt;<span class="type">void</span>()&gt; Task_type;<span class="comment">//任务类型</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">taskPriorityE</span> &#123;LOW, MIDDLE, HIGH&#125;;<span class="comment">//优先级</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">typedef</span> std::pair&lt;taskPriorityE,Task_type&gt; TaskPair;<span class="comment">//任务优先级和任务类型组合的任务</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">ThreadPool</span>(<span class="type">int</span> threads_size = <span class="number">4</span>);<span class="comment">//默认线程池大小为4</span></span><br><span class="line">    ~<span class="built_in">ThreadPool</span>();</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">stop</span><span class="params">()</span></span>;<span class="comment">//终止线程池</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addTask</span><span class="params">(<span class="type">const</span> Task_type&amp;)</span></span>;<span class="comment">//添加任务</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addTask</span><span class="params">(<span class="type">const</span> TaskPair&amp;)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//禁用拷贝构造和赋值运算符</span></span><br><span class="line">    <span class="built_in">ThreadPool</span>(<span class="type">const</span> ThreadPool&amp; other) = <span class="keyword">delete</span>;</span><br><span class="line">    <span class="type">const</span> ThreadPool&amp; <span class="keyword">operator</span>=(<span class="type">const</span> ThreadPool&amp; other) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">is_started</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> m_started;&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start</span><span class="params">()</span></span>;<span class="comment">//运行线程池</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">threadLoop</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Task_type <span class="title">take</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">typedef</span> std::vector&lt;std::thread*&gt; Threads_type;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//重载()操作符实现优先队列的比较操作</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">TaskPriorityCmp</span> &#123;</span><br><span class="line">        <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> TaskPair&amp; a, <span class="type">const</span> TaskPair&amp; b)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> a.first &gt; b.first;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> m_threads_size;<span class="comment">//线程池大小</span></span><br><span class="line">    std::vector&lt;std::thread*&gt; m_threads;<span class="comment">//线程池</span></span><br><span class="line">    std::priority_queue&lt;TaskPair, std::vector&lt;TaskPair&gt;, TaskPriorityCmp&gt;  m_tasks;<span class="comment">//任务队列</span></span><br><span class="line"></span><br><span class="line">    std::mutex m_mutex;<span class="comment">//STL队列不是线程安全的，因此需要结合互斥锁</span></span><br><span class="line">    std::condition_variable m_cond;<span class="comment">//条件变量</span></span><br><span class="line">    <span class="type">bool</span> m_started;<span class="comment">//是否开始</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//构造函数通过传入的参数，初始化线程池大小、锁、条件变量、是否开始，之后开始运行</span></span><br><span class="line">ThreadPool::<span class="built_in">ThreadPool</span>(<span class="type">int</span> threads_size)</span><br><span class="line">    :<span class="built_in">m_threads_size</span>(threads_size), <span class="built_in">m_mutex</span>(), <span class="built_in">m_cond</span>(), <span class="built_in">m_started</span>(<span class="literal">false</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">start</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//析构函数</span></span><br><span class="line">ThreadPool::~<span class="built_in">ThreadPool</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">stop</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//start中创建线程，并将线程和任务处理函数进行绑定</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::start</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// assert 的作用是现计算表达式 expression,如果其值为假(即为0),那么它先向 stderr 打印一条出错信息,然后通过调用 abort 来终止程序运行。</span></span><br><span class="line">    <span class="built_in">assert</span>(m_threads.<span class="built_in">empty</span>());</span><br><span class="line">    <span class="built_in">assert</span>(!m_started);</span><br><span class="line">    m_started = <span class="literal">true</span>;</span><br><span class="line">    m_threads.<span class="built_in">reserve</span>(m_threads_size);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i &lt; m_threads_size; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//函数绑定bind函数用于把某种形式的参数列表与已知的函数进行绑定，形成新的函数</span></span><br><span class="line">        m_threads.<span class="built_in">push_back</span>(<span class="keyword">new</span> std::<span class="built_in">thread</span>(std::<span class="built_in">bind</span>(&amp;ThreadPool::threadLoop, <span class="keyword">this</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程池终止，通知所有线程，并将所有线程分离，最后将线程池清空</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::stop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    m_started = <span class="literal">false</span>;</span><br><span class="line">    m_cond.<span class="built_in">notify_all</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> it = m_threads.<span class="built_in">begin</span>(); it != m_threads.<span class="built_in">end</span>(); ++it)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//等待线程执行直到终止,其实就说join方法将挂起调用线程的执行，直到被调用的对象完成它的执行</span></span><br><span class="line">        (*it)-&gt;<span class="built_in">join</span>();</span><br><span class="line">        <span class="keyword">delete</span> *it;</span><br><span class="line">    &#125;</span><br><span class="line">    m_threads.<span class="built_in">clear</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//threadLoop中循环从队列中拿任务并执行</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::threadLoop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        Task_type task = <span class="built_in">take</span>();</span><br><span class="line">        <span class="keyword">if</span>(task)</span><br><span class="line">            <span class="built_in">task</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加任务</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::addTask</span><span class="params">(<span class="type">const</span> Task_type&amp; task)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    <span class="comment">//默认中等优先级</span></span><br><span class="line">    <span class="function">TaskPair <span class="title">taskPair</span><span class="params">(MIDDLE, task)</span></span>;</span><br><span class="line">    m_tasks.<span class="built_in">emplace</span>(taskPair);</span><br><span class="line">    m_cond.<span class="built_in">notify_one</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::addTask</span><span class="params">(<span class="type">const</span> TaskPair&amp; taskPair)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    m_tasks.<span class="built_in">emplace</span>(taskPair);</span><br><span class="line">    m_cond.<span class="built_in">notify_one</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从任务队列拿任务</span></span><br><span class="line"><span class="function">ThreadPool::Task_type <span class="title">ThreadPool::take</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(m_mutex)</span></span>;</span><br><span class="line">    <span class="keyword">while</span>(m_tasks.<span class="built_in">empty</span>() &amp;&amp; m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        m_cond.<span class="built_in">wait</span>(lock);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Task_type task;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> size = m_tasks.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">if</span>(!m_tasks.<span class="built_in">empty</span>() &amp;&amp; m_started)</span><br><span class="line">    &#123;</span><br><span class="line">        task = m_tasks.<span class="built_in">top</span>().second;</span><br><span class="line">        m_tasks.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="built_in">assert</span>(size <span class="number">-1</span> == m_tasks.<span class="built_in">size</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> task;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>测试代码</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ThreadPool.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">mutex g_mutex;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MyFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="comment">//此锁是保证输出完整</span></span><br><span class="line">      <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(g_mutex)</span></span>;</span><br><span class="line">      std::cout &lt;&lt; <span class="string">&quot;MyFunc()&quot;</span>  &lt;&lt; <span class="string">&quot;at thread [&quot;</span> &lt;&lt; std::this_thread::<span class="built_in">get_id</span>() &lt;&lt; <span class="string">&quot;] output&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ThreadPool tp;</span><br><span class="line">  mutex mtx;</span><br><span class="line">    </span><br><span class="line">  <span class="comment">//这里只添加四次任务，因此任务队列实际大小为4</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i) &#123;</span><br><span class="line">      tp.<span class="built_in">addTask</span>(MyFunc);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">getchar</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="can-kao-lian-jie">参考链接</h1>
-<p><a href="https://github.com/progschj/ThreadPool">https://github.com/progschj/ThreadPool</a></p>
-<p><a href="https://github.com/attackoncs/MyThreadPool">https://github.com/attackoncs/MyThreadPool</a></p>
-<p><a href="https://github.com/mtrebi/thread-pool">https://github.com/mtrebi/thread-pool</a></p>
-]]></content>
-      <categories>
-        <category>C++</category>
-        <category>多线程编程</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
@@ -689,6 +689,307 @@
       </tags>
   </entry>
   <entry>
+    <title>Typora使用教程及MarkDown语法</title>
+    <url>/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/girl-16518503155441.jpg" alt="girl"></p>
+<h1 id="markdown-yu-typora-jie-shao">Markdown与Typora介绍</h1>
+<h2 id="markdown-jie-shao">Markdown介绍</h2>
+<blockquote>
+<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。</p>
+<p>Markdown 语言在 2004 由约翰·格鲁伯（英语：John Gruber）创建。</p>
+<p>Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。</p>
+<p>Markdown 编写的文档后缀为 .md, .markdown</p>
+</blockquote>
+<h2 id="typora-jie-shao-yu-xia-zai">Typora介绍与下载</h2>
+<p>Typora编辑器让人们能更简单地用Markdown语言书写文字，解决了使用传统的Markdown编辑器写文的痛点，并且界面简洁优美，实现了实时预览等功能。</p>
+<p>Typora官网： <a href="https://typora.io/">https://typora.io/</a></p>
+<h1 id="markdown-yu-fa">Markdown语法</h1>
+<h2 id="biao-ti">标题</h2>
+<p>使用 <code>#</code> 可以表示标题，一级标题对应一个 <code>#</code> ，二级标题对应两个 <code>#</code> 号，最多至六级标题。在Typora中，<code>#</code> 后要紧接着一个空格才能表示标题，否则就是普通字符。</p>
+<p>在Typora中，也可以使用快捷键<strong>Ctrl+1</strong>（2，3，4，5，6）表示相对应的标题。<strong>Ctrl+0</strong>表示段落。标题快捷键信息可在菜单栏中的段落选项下查看。</p>
+<h2 id="zi-ti">字体</h2>
+<ul>
+<li>
+<p>用一对星号括住的文本表示斜体文本，如：<code>*</code>要变斜体的文本<code>*</code>，<em>斜体文本</em> ；</p>
+</li>
+<li>
+<p>也可以用一对下划线括住文本来表示斜体文本，如：<code>_</code>要变斜体的文本<code>_</code>，<em>斜体文本</em> ；</p>
+</li>
+</ul>
+<p>也可以使用Typora的快捷键<strong>Ctrl+I</strong>来表示斜体文本。</p>
+<ul>
+<li>
+<p>用一对<code>**</code>括住的文本表示粗体文本，如：<code>**</code>要变粗体的文本<code>**</code>，<strong>粗体文本</strong>；</p>
+</li>
+<li>
+<p>也可以用一对<code>__</code>括住的文本来表示粗体文本，如：<code>__</code>要变粗体的文本<code>__</code>，<strong>粗体文本</strong>；</p>
+</li>
+</ul>
+<p>也可以使用Typora的快捷键<strong>Ctrl+B</strong>来表示粗体文本。</p>
+<p>用一对<code>***</code>括住的文本表示粗斜体文本，如：<code>***</code>要变粗斜体的文本<code>***</code>，<em><strong>粗斜体文本</strong></em>；<br>
+也可以用一对<code>___</code>括住的文本来表示粗斜体文本，如：<code>___</code>要变粗斜体的文本<code>___</code>，<em><strong>粗斜体文本</strong></em></p>
+<h2 id="ge-chong-xian">各种线</h2>
+<ul>
+<li>分割线，可以使用<strong>三个及以上</strong>的 <code>+</code> 号或 <code>*</code> 号或 <code>-</code> 来表示一条分割线；</li>
+</ul>
+<hr>
+<ul>
+<li>删除线，可以使用一对<code>~~</code>括住的文本来表示删除文本，如：<code>~~</code>要加删除线的文本<code>~~</code>，<s>删除文本</s>；在Typora中，也可以使用快捷键<strong>Alt+Shift+5</strong>来加删除线，语法相同，<s>删除线</s>。</li>
+<li>下划线，可以使用HTML的标签<code>&lt;u&gt;</code>和<code>&lt;/u&gt;</code>表示增加下划线的文本，如：<code>&lt;u&gt;</code>要增加下划线的文本<code>&lt;/u&gt;</code>，<u>下划线</u>；在Typora中，也可以使用快捷键<strong>Ctrl+U</strong>来增加下划线，语法也是相同的，<u>下划线</u>。</li>
+</ul>
+<h2 id="lie-biao">列表</h2>
+<p><strong>无序列表</strong></p>
+<p>可以使用<code>*</code>，<code>+</code>或<code>-</code>标记符号来表示无序列表项，记住要在标记符号后<strong>添加一个空格</strong>，语法显示如下：</p>
+<p>在Typora中可以使用快捷键<strong>Ctrl + Shift + ]</strong> 、<strong>Ctrl + Shift + [</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">* 第一项</span><br><span class="line">* 第二项</span><br><span class="line">+ 第一项</span><br><span class="line">+ 第二项</span><br><span class="line">- 第一项</span><br><span class="line">- 第二项</span><br></pre></td></tr></table></figure>
+<h2 id="strong-you-xu-lie-biao-strong"><strong>有序列表</strong></h2>
+<p>可以使用<strong>数字加上<code>.</code>再加上空格</strong>来表示有序列表，语法如下：</p>
+<p>在Typora中可以使用快捷键<strong>Ctrl + Shift + [</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 第一项</span><br><span class="line">3. 第二项</span><br><span class="line">10. 第三项</span><br></pre></td></tr></table></figure>
+<p><strong>嵌套列表</strong></p>
+<p>首先使用<code>*</code>、<code>+</code>或<code>-</code>进入列表，然后回车换行，会发现系统自动生成列表第二项，此时按下<strong>Tab</strong>键，列表第二项变为第一项的子列表。<strong>按回车退出当前列表</strong>。可以在无序列表中嵌套有序列表, 也可以在有序列表中嵌套无序列表。</p>
+<ol>
+<li>一级
+<ol>
+<li>一一级</li>
+<li>一二级
+<ul>
+<li>一二一级</li>
+<li>一二二级</li>
+</ul>
+</li>
+<li>一三级</li>
+</ol>
+</li>
+<li>二级</li>
+</ol>
+<p>快捷键<strong>Shift + tab</strong> ——返回上一级列表</p>
+<h2 id="qu-kuai">区块</h2>
+<p>当我们想要引用别人的文章内容时，可以将其放在区块内。</p>
+<p>可以使用<code>&gt;</code>加空格来表示区块。</p>
+<blockquote>
+<p>一级区块</p>
+<blockquote>
+<p>二级区块</p>
+<blockquote>
+<p>三级区块</p>
+</blockquote>
+<p>二级区块</p>
+</blockquote>
+</blockquote>
+<p>要退出区块，同样使用<code>Enter</code>键即可</p>
+<h2 id="dai-ma">代码</h2>
+<p>如果是一行代码，可以使用段内代码块来表示，用一对 <strong>`</strong>（数字1旁边的符号）括住代码。</p>
+<p>比如<code>printf(&quot;Hello World!&quot;)</code></p>
+<p>如果是代码段，那么可以使用<strong>三个 ` 加Enter/空格+编程语言</strong>来表示。使用快捷键<strong>ctrl + shift + k</strong>如：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello world!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="lian-jie">链接</h2>
+<p>链接的使用方式有两种语法，如下：</p>
+<p><code>[</code>链接文字<code>]</code> <code>(</code>链接地址<code>)</code><br>
+或<br>
+<code>[</code>链接文字<code>]</code> <code>()</code></p>
+<p>示例如下：按住<strong>Ctrl+鼠标左键</strong>点击访问。</p>
+<p><a href="https://www.baidu.com/">百度</a><br>
+<a href="https://www.baidu.com/">https://www.baidu.com/</a></p>
+<p>链接除了可以打开相应的网页外，还可以<strong>打开本地文件</strong>，使用方式类似，不过链接地址需要使用本地文件的地址，相对地址、绝对地址均可：</p>
+<p><code>[</code>打开LinkTest.md文档<code>]</code> <code>(</code>./LinkTest.md<code>)</code></p>
+<p>我们也可以使用链接来实现<strong>页内跳转</strong>，语法为：</p>
+<p><code>[</code>链接文字<code>]</code> <code>(</code>#标题文字<code>)</code></p>
+<p>eg: <a href="#Typora%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E5%8F%8AMarkDown%E8%AF%AD%E6%B3%95">跳到首页</a></p>
+<h2 id="tu-pian">图片</h2>
+<p>我们也可以在Markdown文档中插入图片，语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">![alt 属性文本](图片地址)</span><br><span class="line"></span><br><span class="line">![alt 属性文本](图片地址 &quot;可选标题&quot;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先一个感叹号</li>
+<li>然后中括号里面写属性文本</li>
+<li>小括号里面写图片地址，后可接标题</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">![本地png图片PictureTest.png](./img/PictureTest.png)</span><br><span class="line"></span><br><span class="line">![本地jpg图片](./img/PictureTest.jpg)</span><br><span class="line"></span><br><span class="line">![网络图片](http://static.runoob.com/images/runoob-logo.png &quot;菜鸟教程&quot;)</span><br></pre></td></tr></table></figure>
+<p>在Typora中，也可以直接使用<code>Ctrl+C</code>，<code>Ctrl+V</code>来直接进行复制粘贴图片，但是，由于Markdown是需要图片的地址的，所以需要简单设置一下Typora。</p>
+<p>点击文件 --&gt; 偏好设置 --&gt; 图像，如下：</p>
+<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjYxMjUx,size_16,color_FFFFFF,t_70-16518503155442.png" alt="img"></p>
+<p>可以自行设置选择将图片复制到哪个文件夹。</p>
+<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/20191108173139695-16518503155444.png" alt="img"></p>
+<p>这里选择复制到指定路径，然后在下面一栏中填写./img，表示将图片复制到你正在编辑的文档同一级的img文件夹下。在下面的选项中，勾选第一、二、三项。正因为勾选了第二项，所以当我们在插入网络图片时，Typora会自动帮我们将网络图片下载到指定的路径下，前面的&quot;菜鸟教程&quot;图片便是如此。</p>
+<p>由于Markdown的特殊语法，故经常会出现图片加载失败的情况，很大的可能就是因为在指定的路径上找不到相应的图片，当然，有时候也是由于Typora的原因，重启Typora即可</p>
+<h2 id="yan-se-zi-ti">颜色字体</h2>
+<p>替换对应颜色代码即可</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$\color&#123;#FF3030&#125;&#123;red&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#0000CD&#125;&#123;blue&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#33ff66&#125;&#123;green&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#ffff00&#125;&#123;yellow&#125;$</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/image-20220506232014009.png" alt="image-20220506232014009"></p>
+<h2 id="biao-ge">表格</h2>
+<p>Markdown 制作表格使用 <code>|</code> 来分隔不同的单元格，使用 <code>-</code> 来分隔表头和其他行。</p>
+<p>语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">|表头|表头|表头|</span><br><span class="line">|---|---|----|</span><br><span class="line">|单元格|单元格|单元格|</span><br><span class="line">|单元格|单元格|单元格|</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>表头</th>
+<th>表头</th>
+<th>表头</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单元格</td>
+<td>单元格</td>
+<td>单元格</td>
+</tr>
+<tr>
+<td>单元格</td>
+<td>单元格</td>
+<td>单元格</td>
+</tr>
+</tbody>
+</table>
+<p>我们可以设置对齐方式：</p>
+<ul>
+<li><code>:-</code>表示左对齐</li>
+<li><code>-:</code>表示右对齐</li>
+<li><code>:-:</code>表示中间对齐</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">|左对齐|右对齐|中间对齐|</span><br><span class="line">|:---|---:|:----:|</span><br><span class="line">|单元格|单元格|单元格|</span><br><span class="line">|单元格|单元格|单元格|</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">左对齐</th>
+<th style="text-align:right">右对齐</th>
+<th style="text-align:center">中间对齐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">单元格</td>
+<td style="text-align:right">单元格</td>
+<td style="text-align:center">单元格</td>
+</tr>
+<tr>
+<td style="text-align:left">单元格</td>
+<td style="text-align:right">单元格</td>
+<td style="text-align:center">单元格</td>
+</tr>
+</tbody>
+</table>
+<p>在Typora中，我们可以使用快捷键<strong>Ctrl+T</strong>来插入表格，并选择行列，当选中表格某一单元格时，可以在表格左上角手动设置对齐方式，右上角选择更多操作。</p>
+<h1 id="typora-yu-shu-xue-gong-shi">Typora与数学公式</h1>
+<h2 id="ru-he-cha-ru-shu-xue-gong-shi">如何插入数学公式</h2>
+<p>在Typora中，有两种方法插入数学公式，语法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">第一种方法：$数学公式$</span><br><span class="line">第二种方法：</span><br><span class="line">$$</span><br><span class="line">数学公式</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>第一种方法表示插入行内公式（内联公式），即可以将公式插入到一行中，比如$1 + 2 = 3$ 这样的公式。</p>
+<p>第二种方法表示插入行间公式（外联公式），即可以将公式插入到行与行之间，单独占据一行或者数行的空间，并且居中放置。<br>
+$$<br>
+1+2=3<br>
+$$<br>
+如果要在行间公式内换行，在换行的位置使用<code>\\</code></p>
+<p>常用符号、上下标、根号、括号、运算符等此处不做详细介绍</p>
+<h1 id="typora-yu-html">Typora与HTML</h1>
+<h2 id="gai-bian-zi-ti-yan-se-ji-da-xiao">改变字体颜色及大小</h2>
+<p>我们可以使用<code>&lt;font&gt; &lt;/font&gt;</code>标签来改变字体的颜色及大小，如：</p>
+<p>属性<code>size</code>表示字体大小，<code>color</code>表示颜色。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;font size=3 color=&quot;red&quot;&gt;字体颜色为红色，大小为3&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">&lt;font size=4 color=&quot;blue&quot;&gt;字体颜色为蓝色，大小为4&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">&lt;font size=6 color=&quot;violet&quot;&gt;字体颜色为紫罗兰，大小为6&lt;/font&gt;</span><br></pre></td></tr></table></figure>
+<p><font size="3" color="red">字体颜色为红色，大小为3</font></p>
+<p><font size="4" color="blue">字体颜色为蓝色，大小为4</font></p>
+<p><font size="6" color="violet">字体颜色为紫罗兰，大小为6</font></p>
+<h2 id="gai-bian-dui-qi-fang-shi">改变对齐方式</h2>
+<p>我们可以改变字体的对齐方式，用标签<code>&lt;p&gt; &lt;/p&gt;</code>加上属性<code>align</code>，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;p align=&quot;left&quot;&gt;左对齐&lt;/p&gt;</span><br><span class="line">&lt;p align=&quot;center&quot;&gt;中间对齐&lt;/p&gt;</span><br><span class="line">&lt;p align=&quot;right&quot;&gt;右对齐&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<p align="left">左对齐</p>
+<p align="left">左对齐</p>
+<p align="center">中间对齐</p>
+<p align="right">右对齐</p>
+<h2 id="cha-ru-tu-xiang">插入图像</h2>
+<p>因为CSDN不支持使用img标签修改图像，所以下面的结果都不是准确的。大家可以自己在Typora中测试。<br>
+我们可以通过标签<code>&lt;img src=url /&gt;</code>来插入图片，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>我们可以改变<code>&lt;img&gt;</code>标签的属性，来改变图片的大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=100 height=100/&gt;</span><br></pre></td></tr></table></figure>
+<img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100/">
+<p>我们可以改变<code>&lt;img&gt;</code>标签的属性，来改变图片的大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=30 height=30 style=&quot;float:left&quot;/&gt;图片在左边</span><br><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=30 height=30 style=&quot;float:right&quot;/&gt;图片在右边</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100" style="float:left">图片在左边</p>
+<img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100" style="float:right">
+<p>图片在右边</p>
+<h1 id="kuo-zhan-yong-fa">扩展用法</h1>
+<h2 id="cha-ru-emoji-biao-qing">插入emoji表情</h2>
+<p>我们可以使用<code>:emoji:</code>的语法来插入表情，比如：</p>
+<p>:happy:的语法为<code>:happy:</code></p>
+<p>🦀的语法为<code>:crab:</code></p>
+<p>🐴的语法为<code>:horse:</code></p>
+<h2 id="cha-ru-mu-lu">插入目录</h2>
+<p>当我们为使用标题将文分章节后，可以在输入<code>[toc]</code>命令的地方自动根据标题生成目录。</p>
+<h2 id="wen-ben-gao-liang">文本高亮</h2>
+<p>在Typora中，可以用一对<code>==</code>将要高亮的文本括起来，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">==要高亮的文本==</span><br><span class="line">==背景会用黄色填充==</span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/image-20220506233054585.png" alt="image-20220506233054585"></p>
+<p>这个功能可在偏好设置 --&gt; Markdown扩展语法中设置。</p>
+]]></content>
+      <categories>
+        <category>工具类</category>
+      </categories>
+      <tags>
+        <tag>MarkDown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于__pycache__文件夹</title>
+    <url>/2022/05/27/%E5%85%B3%E4%BA%8E__pycache__%E6%96%87%E4%BB%B6%E5%A4%B9/</url>
+    <content><![CDATA[<p>最近在查看某个py程序时，发现很多模块下都存在一个名字为<code>__pycache__</code> 文件夹，如下图所示。</p>
+<p><img src="/2022/05/27/%E5%85%B3%E4%BA%8E__pycache__%E6%96%87%E4%BB%B6%E5%A4%B9/image-20220526200618937.png" alt="image-20220526200618937"></p>
+<p>查阅相关资料现总结如下：</p>
+<blockquote>
+<p><code>__pycache__</code> 文件夹是 Python 解释器自动生成的，用来存放编译的字节码</p>
+</blockquote>
+<p>先大概了解一下python基本运行机制。Python程序运行时不需要编译成二进制代码，而直接从源码运行程序，简单来说是，Python解释器将源码转换为字节码，然后再由解释器来执行这些字节码。</p>
+<p><strong>解释器的具体工作：</strong></p>
+<ol>
+<li>完成模块的加载和链接;</li>
+<li>将源代码编译为<code>PyCodeObject</code>对象（即字节码），写入内存中，供CPU读取；</li>
+<li>从内存中读取并执行，结束后将<code>PyCodeObject</code>写回硬盘当中，也就是复制到<code>.pyc</code>或<code>.pyo</code>文件中，以保存当前目录下所有脚本的字节码文件</li>
+</ol>
+<p>之后若再次执行该脚本，它先检查[<strong>本地是否有上述字节码文件</strong>]和[<strong>该字节码文件的修改时间是否在其源文件之后</strong>]，是就直接执行，否则重复上述步骤。</p>
+<p>意义在于：第一次执行代码时，python解释器已经把编译的字节码放在了<code>__pycache__</code>文件夹中，这样以后再运行的话，如果被调用模块未发生改变，那就直接跳过编译这一步，直接去<code>__pycache__</code>文件夹中去运行相关的<code>*.pyc</code>文件，大大缩短了项目运行前的准备时间。</p>
+<p><strong>注</strong>：</p>
+<p><strong><code>.pyc</code>文件类型</strong></p>
+<p>当你导入一个模块时，解释器会自动生成<code>.pyc</code>文件，这样会节省下次导入的时间。注意，使用<code>.pyc</code>文件只是加速程序加载的时间，而不是加速程序执行的时间。</p>
+<p>注意：因为<code>.pyc</code>文件是平台不相关的，所以可以在不同架构的机器上使用同一个<code>.pyc</code>文件。然而，如果开发者在他们的系统上使用不同的时钟时间，在生成<code>.pyc</code>文件的时候同时生成时间戳，将来其他的开发者读取这个时间戳，这可能导致对源码进行修改的时候不会修改字节码，这是一个不容易被发现的严重的bug。最好的方式就是把在进行版本控制的时候忽略<code>.pyc</code>文件。</p>
+<blockquote>
+<p>文件夹下所产生的文件<code>*.pyc</code>没有必要提交到版本管理仓库上，可以通过在本地 Project 中的 <strong>.gitignore</strong>文件中增加 <code>*.pyc</code>.</p>
+</blockquote>
+<p><strong><code>.pyo</code>文件类型</strong></p>
+<p>当有模块被导入的时候，解释器也会产生<code>.pyo</code>文件，只不过需要告诉解释器开启优化设置。产生<code>.pyo</code>文件就不再产生<code>.pyc</code>文件了（python3.5以前是<code>.pyo</code>，python3.5以后就是产生<code>.opt-1.pyc</code>文件）。源代码变化的时候，<code>.pyo</code>或.<code>opt-1.pyc</code>也会随着变化。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP三次握手和四次挥手</title>
+    <url>/2022/04/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="jian-jie-tcp-san-ci-wo-shou-he-si-ci-hui-shou">简解TCP三次握手和四次挥手</h1>
+<p>三次握手发生在客户端连接的时候，当调用connect(), 底层会通过TCP协议进行三次握手</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式简解</title>
+    <url>/2022/05/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AE%80%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>经典排序算法</title>
     <url>/2022/05/23/%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<img src="/2022/05/23/%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/wallhaven-y8mg97_3840x2160.png" alt="wallhaven-y8mg97_3840x2160" style="zoom:80%;">
@@ -955,307 +1256,6 @@
       <tags>
         <tag>C++</tag>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于__pycache__文件夹</title>
-    <url>/2022/05/27/%E5%85%B3%E4%BA%8E__pycache__%E6%96%87%E4%BB%B6%E5%A4%B9/</url>
-    <content><![CDATA[<p>最近在查看某个py程序时，发现很多模块下都存在一个名字为<code>__pycache__</code> 文件夹，如下图所示。</p>
-<p><img src="/2022/05/27/%E5%85%B3%E4%BA%8E__pycache__%E6%96%87%E4%BB%B6%E5%A4%B9/image-20220526200618937.png" alt="image-20220526200618937"></p>
-<p>查阅相关资料现总结如下：</p>
-<blockquote>
-<p><code>__pycache__</code> 文件夹是 Python 解释器自动生成的，用来存放编译的字节码</p>
-</blockquote>
-<p>先大概了解一下python基本运行机制。Python程序运行时不需要编译成二进制代码，而直接从源码运行程序，简单来说是，Python解释器将源码转换为字节码，然后再由解释器来执行这些字节码。</p>
-<p><strong>解释器的具体工作：</strong></p>
-<ol>
-<li>完成模块的加载和链接;</li>
-<li>将源代码编译为<code>PyCodeObject</code>对象（即字节码），写入内存中，供CPU读取；</li>
-<li>从内存中读取并执行，结束后将<code>PyCodeObject</code>写回硬盘当中，也就是复制到<code>.pyc</code>或<code>.pyo</code>文件中，以保存当前目录下所有脚本的字节码文件</li>
-</ol>
-<p>之后若再次执行该脚本，它先检查[<strong>本地是否有上述字节码文件</strong>]和[<strong>该字节码文件的修改时间是否在其源文件之后</strong>]，是就直接执行，否则重复上述步骤。</p>
-<p>意义在于：第一次执行代码时，python解释器已经把编译的字节码放在了<code>__pycache__</code>文件夹中，这样以后再运行的话，如果被调用模块未发生改变，那就直接跳过编译这一步，直接去<code>__pycache__</code>文件夹中去运行相关的<code>*.pyc</code>文件，大大缩短了项目运行前的准备时间。</p>
-<p><strong>注</strong>：</p>
-<p><strong><code>.pyc</code>文件类型</strong></p>
-<p>当你导入一个模块时，解释器会自动生成<code>.pyc</code>文件，这样会节省下次导入的时间。注意，使用<code>.pyc</code>文件只是加速程序加载的时间，而不是加速程序执行的时间。</p>
-<p>注意：因为<code>.pyc</code>文件是平台不相关的，所以可以在不同架构的机器上使用同一个<code>.pyc</code>文件。然而，如果开发者在他们的系统上使用不同的时钟时间，在生成<code>.pyc</code>文件的时候同时生成时间戳，将来其他的开发者读取这个时间戳，这可能导致对源码进行修改的时候不会修改字节码，这是一个不容易被发现的严重的bug。最好的方式就是把在进行版本控制的时候忽略<code>.pyc</code>文件。</p>
-<blockquote>
-<p>文件夹下所产生的文件<code>*.pyc</code>没有必要提交到版本管理仓库上，可以通过在本地 Project 中的 <strong>.gitignore</strong>文件中增加 <code>*.pyc</code>.</p>
-</blockquote>
-<p><strong><code>.pyo</code>文件类型</strong></p>
-<p>当有模块被导入的时候，解释器也会产生<code>.pyo</code>文件，只不过需要告诉解释器开启优化设置。产生<code>.pyo</code>文件就不再产生<code>.pyc</code>文件了（python3.5以前是<code>.pyo</code>，python3.5以后就是产生<code>.opt-1.pyc</code>文件）。源代码变化的时候，<code>.pyo</code>或.<code>opt-1.pyc</code>也会随着变化。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP三次握手和四次挥手</title>
-    <url>/2022/04/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h1 id="jian-jie-tcp-san-ci-wo-shou-he-si-ci-hui-shou">简解TCP三次握手和四次挥手</h1>
-<p>三次握手发生在客户端连接的时候，当调用connect(), 底层会通过TCP协议进行三次握手</p>
-]]></content>
-      <categories>
-        <category>计算机网络</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式简解</title>
-    <url>/2022/05/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AE%80%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Typora使用教程及MarkDown语法</title>
-    <url>/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/girl-16518503155441.jpg" alt="girl"></p>
-<h1 id="markdown-yu-typora-jie-shao">Markdown与Typora介绍</h1>
-<h2 id="markdown-jie-shao">Markdown介绍</h2>
-<blockquote>
-<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。</p>
-<p>Markdown 语言在 2004 由约翰·格鲁伯（英语：John Gruber）创建。</p>
-<p>Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。</p>
-<p>Markdown 编写的文档后缀为 .md, .markdown</p>
-</blockquote>
-<h2 id="typora-jie-shao-yu-xia-zai">Typora介绍与下载</h2>
-<p>Typora编辑器让人们能更简单地用Markdown语言书写文字，解决了使用传统的Markdown编辑器写文的痛点，并且界面简洁优美，实现了实时预览等功能。</p>
-<p>Typora官网： <a href="https://typora.io/">https://typora.io/</a></p>
-<h1 id="markdown-yu-fa">Markdown语法</h1>
-<h2 id="biao-ti">标题</h2>
-<p>使用 <code>#</code> 可以表示标题，一级标题对应一个 <code>#</code> ，二级标题对应两个 <code>#</code> 号，最多至六级标题。在Typora中，<code>#</code> 后要紧接着一个空格才能表示标题，否则就是普通字符。</p>
-<p>在Typora中，也可以使用快捷键<strong>Ctrl+1</strong>（2，3，4，5，6）表示相对应的标题。<strong>Ctrl+0</strong>表示段落。标题快捷键信息可在菜单栏中的段落选项下查看。</p>
-<h2 id="zi-ti">字体</h2>
-<ul>
-<li>
-<p>用一对星号括住的文本表示斜体文本，如：<code>*</code>要变斜体的文本<code>*</code>，<em>斜体文本</em> ；</p>
-</li>
-<li>
-<p>也可以用一对下划线括住文本来表示斜体文本，如：<code>_</code>要变斜体的文本<code>_</code>，<em>斜体文本</em> ；</p>
-</li>
-</ul>
-<p>也可以使用Typora的快捷键<strong>Ctrl+I</strong>来表示斜体文本。</p>
-<ul>
-<li>
-<p>用一对<code>**</code>括住的文本表示粗体文本，如：<code>**</code>要变粗体的文本<code>**</code>，<strong>粗体文本</strong>；</p>
-</li>
-<li>
-<p>也可以用一对<code>__</code>括住的文本来表示粗体文本，如：<code>__</code>要变粗体的文本<code>__</code>，<strong>粗体文本</strong>；</p>
-</li>
-</ul>
-<p>也可以使用Typora的快捷键<strong>Ctrl+B</strong>来表示粗体文本。</p>
-<p>用一对<code>***</code>括住的文本表示粗斜体文本，如：<code>***</code>要变粗斜体的文本<code>***</code>，<em><strong>粗斜体文本</strong></em>；<br>
-也可以用一对<code>___</code>括住的文本来表示粗斜体文本，如：<code>___</code>要变粗斜体的文本<code>___</code>，<em><strong>粗斜体文本</strong></em></p>
-<h2 id="ge-chong-xian">各种线</h2>
-<ul>
-<li>分割线，可以使用<strong>三个及以上</strong>的 <code>+</code> 号或 <code>*</code> 号或 <code>-</code> 来表示一条分割线；</li>
-</ul>
-<hr>
-<ul>
-<li>删除线，可以使用一对<code>~~</code>括住的文本来表示删除文本，如：<code>~~</code>要加删除线的文本<code>~~</code>，<s>删除文本</s>；在Typora中，也可以使用快捷键<strong>Alt+Shift+5</strong>来加删除线，语法相同，<s>删除线</s>。</li>
-<li>下划线，可以使用HTML的标签<code>&lt;u&gt;</code>和<code>&lt;/u&gt;</code>表示增加下划线的文本，如：<code>&lt;u&gt;</code>要增加下划线的文本<code>&lt;/u&gt;</code>，<u>下划线</u>；在Typora中，也可以使用快捷键<strong>Ctrl+U</strong>来增加下划线，语法也是相同的，<u>下划线</u>。</li>
-</ul>
-<h2 id="lie-biao">列表</h2>
-<p><strong>无序列表</strong></p>
-<p>可以使用<code>*</code>，<code>+</code>或<code>-</code>标记符号来表示无序列表项，记住要在标记符号后<strong>添加一个空格</strong>，语法显示如下：</p>
-<p>在Typora中可以使用快捷键<strong>Ctrl + Shift + ]</strong> 、<strong>Ctrl + Shift + [</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">* 第一项</span><br><span class="line">* 第二项</span><br><span class="line">+ 第一项</span><br><span class="line">+ 第二项</span><br><span class="line">- 第一项</span><br><span class="line">- 第二项</span><br></pre></td></tr></table></figure>
-<h2 id="strong-you-xu-lie-biao-strong"><strong>有序列表</strong></h2>
-<p>可以使用<strong>数字加上<code>.</code>再加上空格</strong>来表示有序列表，语法如下：</p>
-<p>在Typora中可以使用快捷键<strong>Ctrl + Shift + [</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 第一项</span><br><span class="line">3. 第二项</span><br><span class="line">10. 第三项</span><br></pre></td></tr></table></figure>
-<p><strong>嵌套列表</strong></p>
-<p>首先使用<code>*</code>、<code>+</code>或<code>-</code>进入列表，然后回车换行，会发现系统自动生成列表第二项，此时按下<strong>Tab</strong>键，列表第二项变为第一项的子列表。<strong>按回车退出当前列表</strong>。可以在无序列表中嵌套有序列表, 也可以在有序列表中嵌套无序列表。</p>
-<ol>
-<li>一级
-<ol>
-<li>一一级</li>
-<li>一二级
-<ul>
-<li>一二一级</li>
-<li>一二二级</li>
-</ul>
-</li>
-<li>一三级</li>
-</ol>
-</li>
-<li>二级</li>
-</ol>
-<p>快捷键<strong>Shift + tab</strong> ——返回上一级列表</p>
-<h2 id="qu-kuai">区块</h2>
-<p>当我们想要引用别人的文章内容时，可以将其放在区块内。</p>
-<p>可以使用<code>&gt;</code>加空格来表示区块。</p>
-<blockquote>
-<p>一级区块</p>
-<blockquote>
-<p>二级区块</p>
-<blockquote>
-<p>三级区块</p>
-</blockquote>
-<p>二级区块</p>
-</blockquote>
-</blockquote>
-<p>要退出区块，同样使用<code>Enter</code>键即可</p>
-<h2 id="dai-ma">代码</h2>
-<p>如果是一行代码，可以使用段内代码块来表示，用一对 <strong>`</strong>（数字1旁边的符号）括住代码。</p>
-<p>比如<code>printf(&quot;Hello World!&quot;)</code></p>
-<p>如果是代码段，那么可以使用<strong>三个 ` 加Enter/空格+编程语言</strong>来表示。使用快捷键<strong>ctrl + shift + k</strong>如：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello world!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="lian-jie">链接</h2>
-<p>链接的使用方式有两种语法，如下：</p>
-<p><code>[</code>链接文字<code>]</code> <code>(</code>链接地址<code>)</code><br>
-或<br>
-<code>[</code>链接文字<code>]</code> <code>()</code></p>
-<p>示例如下：按住<strong>Ctrl+鼠标左键</strong>点击访问。</p>
-<p><a href="https://www.baidu.com/">百度</a><br>
-<a href="https://www.baidu.com/">https://www.baidu.com/</a></p>
-<p>链接除了可以打开相应的网页外，还可以<strong>打开本地文件</strong>，使用方式类似，不过链接地址需要使用本地文件的地址，相对地址、绝对地址均可：</p>
-<p><code>[</code>打开LinkTest.md文档<code>]</code> <code>(</code>./LinkTest.md<code>)</code></p>
-<p>我们也可以使用链接来实现<strong>页内跳转</strong>，语法为：</p>
-<p><code>[</code>链接文字<code>]</code> <code>(</code>#标题文字<code>)</code></p>
-<p>eg: <a href="#Typora%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E5%8F%8AMarkDown%E8%AF%AD%E6%B3%95">跳到首页</a></p>
-<h2 id="tu-pian">图片</h2>
-<p>我们也可以在Markdown文档中插入图片，语法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">![alt 属性文本](图片地址)</span><br><span class="line"></span><br><span class="line">![alt 属性文本](图片地址 &quot;可选标题&quot;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>首先一个感叹号</li>
-<li>然后中括号里面写属性文本</li>
-<li>小括号里面写图片地址，后可接标题</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">![本地png图片PictureTest.png](./img/PictureTest.png)</span><br><span class="line"></span><br><span class="line">![本地jpg图片](./img/PictureTest.jpg)</span><br><span class="line"></span><br><span class="line">![网络图片](http://static.runoob.com/images/runoob-logo.png &quot;菜鸟教程&quot;)</span><br></pre></td></tr></table></figure>
-<p>在Typora中，也可以直接使用<code>Ctrl+C</code>，<code>Ctrl+V</code>来直接进行复制粘贴图片，但是，由于Markdown是需要图片的地址的，所以需要简单设置一下Typora。</p>
-<p>点击文件 --&gt; 偏好设置 --&gt; 图像，如下：</p>
-<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjYxMjUx,size_16,color_FFFFFF,t_70-16518503155442.png" alt="img"></p>
-<p>可以自行设置选择将图片复制到哪个文件夹。</p>
-<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/20191108173139695-16518503155444.png" alt="img"></p>
-<p>这里选择复制到指定路径，然后在下面一栏中填写./img，表示将图片复制到你正在编辑的文档同一级的img文件夹下。在下面的选项中，勾选第一、二、三项。正因为勾选了第二项，所以当我们在插入网络图片时，Typora会自动帮我们将网络图片下载到指定的路径下，前面的&quot;菜鸟教程&quot;图片便是如此。</p>
-<p>由于Markdown的特殊语法，故经常会出现图片加载失败的情况，很大的可能就是因为在指定的路径上找不到相应的图片，当然，有时候也是由于Typora的原因，重启Typora即可</p>
-<h2 id="yan-se-zi-ti">颜色字体</h2>
-<p>替换对应颜色代码即可</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$\color&#123;#FF3030&#125;&#123;red&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#0000CD&#125;&#123;blue&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#33ff66&#125;&#123;green&#125;$</span><br><span class="line"></span><br><span class="line">$\color&#123;#ffff00&#125;&#123;yellow&#125;$</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/image-20220506232014009.png" alt="image-20220506232014009"></p>
-<h2 id="biao-ge">表格</h2>
-<p>Markdown 制作表格使用 <code>|</code> 来分隔不同的单元格，使用 <code>-</code> 来分隔表头和其他行。</p>
-<p>语法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">|表头|表头|表头|</span><br><span class="line">|---|---|----|</span><br><span class="line">|单元格|单元格|单元格|</span><br><span class="line">|单元格|单元格|单元格|</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>表头</th>
-<th>表头</th>
-<th>表头</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>单元格</td>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-<tr>
-<td>单元格</td>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-</tbody>
-</table>
-<p>我们可以设置对齐方式：</p>
-<ul>
-<li><code>:-</code>表示左对齐</li>
-<li><code>-:</code>表示右对齐</li>
-<li><code>:-:</code>表示中间对齐</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">|左对齐|右对齐|中间对齐|</span><br><span class="line">|:---|---:|:----:|</span><br><span class="line">|单元格|单元格|单元格|</span><br><span class="line">|单元格|单元格|单元格|</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">左对齐</th>
-<th style="text-align:right">右对齐</th>
-<th style="text-align:center">中间对齐</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">单元格</td>
-<td style="text-align:right">单元格</td>
-<td style="text-align:center">单元格</td>
-</tr>
-<tr>
-<td style="text-align:left">单元格</td>
-<td style="text-align:right">单元格</td>
-<td style="text-align:center">单元格</td>
-</tr>
-</tbody>
-</table>
-<p>在Typora中，我们可以使用快捷键<strong>Ctrl+T</strong>来插入表格，并选择行列，当选中表格某一单元格时，可以在表格左上角手动设置对齐方式，右上角选择更多操作。</p>
-<h1 id="typora-yu-shu-xue-gong-shi">Typora与数学公式</h1>
-<h2 id="ru-he-cha-ru-shu-xue-gong-shi">如何插入数学公式</h2>
-<p>在Typora中，有两种方法插入数学公式，语法为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">第一种方法：$数学公式$</span><br><span class="line">第二种方法：</span><br><span class="line">$$</span><br><span class="line">数学公式</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
-<p>第一种方法表示插入行内公式（内联公式），即可以将公式插入到一行中，比如$1 + 2 = 3$ 这样的公式。</p>
-<p>第二种方法表示插入行间公式（外联公式），即可以将公式插入到行与行之间，单独占据一行或者数行的空间，并且居中放置。<br>
-$$<br>
-1+2=3<br>
-$$<br>
-如果要在行间公式内换行，在换行的位置使用<code>\\</code></p>
-<p>常用符号、上下标、根号、括号、运算符等此处不做详细介绍</p>
-<h1 id="typora-yu-html">Typora与HTML</h1>
-<h2 id="gai-bian-zi-ti-yan-se-ji-da-xiao">改变字体颜色及大小</h2>
-<p>我们可以使用<code>&lt;font&gt; &lt;/font&gt;</code>标签来改变字体的颜色及大小，如：</p>
-<p>属性<code>size</code>表示字体大小，<code>color</code>表示颜色。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;font size=3 color=&quot;red&quot;&gt;字体颜色为红色，大小为3&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">&lt;font size=4 color=&quot;blue&quot;&gt;字体颜色为蓝色，大小为4&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">&lt;font size=6 color=&quot;violet&quot;&gt;字体颜色为紫罗兰，大小为6&lt;/font&gt;</span><br></pre></td></tr></table></figure>
-<p><font size="3" color="red">字体颜色为红色，大小为3</font></p>
-<p><font size="4" color="blue">字体颜色为蓝色，大小为4</font></p>
-<p><font size="6" color="violet">字体颜色为紫罗兰，大小为6</font></p>
-<h2 id="gai-bian-dui-qi-fang-shi">改变对齐方式</h2>
-<p>我们可以改变字体的对齐方式，用标签<code>&lt;p&gt; &lt;/p&gt;</code>加上属性<code>align</code>，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;p align=&quot;left&quot;&gt;左对齐&lt;/p&gt;</span><br><span class="line">&lt;p align=&quot;center&quot;&gt;中间对齐&lt;/p&gt;</span><br><span class="line">&lt;p align=&quot;right&quot;&gt;右对齐&lt;/p&gt;</span><br></pre></td></tr></table></figure>
-<p align="left">左对齐</p>
-<p align="left">左对齐</p>
-<p align="center">中间对齐</p>
-<p align="right">右对齐</p>
-<h2 id="cha-ru-tu-xiang">插入图像</h2>
-<p>因为CSDN不支持使用img标签修改图像，所以下面的结果都不是准确的。大家可以自己在Typora中测试。<br>
-我们可以通过标签<code>&lt;img src=url /&gt;</code>来插入图片，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<p>我们可以改变<code>&lt;img&gt;</code>标签的属性，来改变图片的大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=100 height=100/&gt;</span><br></pre></td></tr></table></figure>
-<img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100/">
-<p>我们可以改变<code>&lt;img&gt;</code>标签的属性，来改变图片的大小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=30 height=30 style=&quot;float:left&quot;/&gt;图片在左边</span><br><span class="line">&lt;img src=&quot;img/3.jpg&quot; width=30 height=30 style=&quot;float:right&quot;/&gt;图片在右边</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100" style="float:left">图片在左边</p>
-<img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/3-16518503155443.jpg" width="100" height="100" style="float:right">
-<p>图片在右边</p>
-<h1 id="kuo-zhan-yong-fa">扩展用法</h1>
-<h2 id="cha-ru-emoji-biao-qing">插入emoji表情</h2>
-<p>我们可以使用<code>:emoji:</code>的语法来插入表情，比如：</p>
-<p>:happy:的语法为<code>:happy:</code></p>
-<p>🦀的语法为<code>:crab:</code></p>
-<p>🐴的语法为<code>:horse:</code></p>
-<h2 id="cha-ru-mu-lu">插入目录</h2>
-<p>当我们为使用标题将文分章节后，可以在输入<code>[toc]</code>命令的地方自动根据标题生成目录。</p>
-<h2 id="wen-ben-gao-liang">文本高亮</h2>
-<p>在Typora中，可以用一对<code>==</code>将要高亮的文本括起来，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">==要高亮的文本==</span><br><span class="line">==背景会用黄色填充==</span><br></pre></td></tr></table></figure>
-<p>结果为：</p>
-<p><img src="/2022/05/07/Typora%E5%92%8CMarkDown%E7%9B%B8%E5%85%B3%E6%95%99%E7%A8%8B/image-20220506233054585.png" alt="image-20220506233054585"></p>
-<p>这个功能可在偏好设置 --&gt; Markdown扩展语法中设置。</p>
-]]></content>
-      <categories>
-        <category>工具类</category>
-      </categories>
-      <tags>
-        <tag>MarkDown</tag>
       </tags>
   </entry>
   <entry>
