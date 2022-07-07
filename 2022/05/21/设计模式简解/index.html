@@ -26,11 +26,13 @@
 <meta property="og:site_name" content="zmqNut">
 <meta property="og:description" content="设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案，用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性。总共有 23 种设计模式。这些模式可以分为三大类：创建型模式（Creational Patterns）、结构型模式（Structural Patterns）、行为型模式（Behavioral Patterns）。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://shiwei-qi.github.io/2022/05/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AE%80%E8%A7%A3/image-20220621221705631.png">
 <meta property="article:published_time" content="2022-05-20T20:57:09.000Z">
-<meta property="article:modified_time" content="2022-05-21T10:58:18.760Z">
+<meta property="article:modified_time" content="2022-07-06T12:31:42.523Z">
 <meta property="article:author" content="shiwei-qi">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://shiwei-qi.github.io/2022/05/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AE%80%E8%A7%A3/image-20220621221705631.png">
 
 <link rel="canonical" href="https://shiwei-qi.github.io/2022/05/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AE%80%E8%A7%A3/">
 
@@ -228,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-21 02:58:18" itemprop="dateModified" datetime="2022-05-21T02:58:18-08:00">2022-05-21</time>
+                <time title="修改时间：2022-07-06 04:31:42" itemprop="dateModified" datetime="2022-07-06T04:31:42-08:00">2022-07-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,14 +248,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>5 分钟</span>
             </span>
             <div class="post-description">设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案，用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性。总共有 23 种设计模式。这些模式可以分为三大类：创建型模式（Creational Patterns）、结构型模式（Structural Patterns）、行为型模式（Behavioral Patterns）。</div>
 
@@ -266,7 +268,77 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="jian-jie">简介</h1>
+<p>设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案，用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性。总共有 <strong>23</strong> 种设计模式。这些模式可以分为三大类：创建型模式（Creational Patterns）、结构型模式（Structural Patterns）、行为型模式（Behavioral Patterns）。</p>
+<p>设计模式的本质是面向对象设计原则的实际运用，是对类的封装性、继承性和多态性以及类的关联关系和组合关系的充分理解。</p>
+<h2 id="strong-fen-lei-strong"><strong>分类</strong></h2>
+<p>□<strong>创建型模式</strong>：</p>
+<p>​	◇单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式。</p>
+<p>□<strong>结构型模式</strong>：</p>
+<p>​	◇适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式。</p>
+<p>□<strong>行为型模式</strong>：</p>
+<p>​	◇模板方法模式、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式、状态模式、策略模式、职责链模式、访问者模式。</p>
+<p>具体如下图所示：</p>
+<img src="/2022/05/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%AE%80%E8%A7%A3/image-20220621221705631.png" alt="image-20220621221705631" style="zoom:67%;">
+<h2 id="oop-qi-da-yuan-ze">OOP七大原则</h2>
+<p>◆<strong>开闭原则</strong>：对扩展开放，对修改关闭</p>
+<p>◆<strong>里氏替换原则</strong>：继承必须确保超类所拥有的性质在子类中仍然成立</p>
+<p>◆<strong>依赖倒置原则</strong>：要面向接口编程，不要面向实现编程。</p>
+<p>◆<strong>单一职责原则</strong>：控制类的粒度大小、将对象解耦、提高其内聚性。</p>
+<p>◆<strong>接口隔离原则</strong>：要为各个类建立它们需要的专用接口</p>
+<p>◆<strong>迪米特法则</strong>：只与你的直接朋友交谈，不跟“陌生人”说话。</p>
+<p>◆<strong>合成复用原则</strong>：尽量先使用组合或者聚合等关联关系来实现，其次才考虑使用继承关系来实现。</p>
+<hr>
+<h1 id="chuang-jian-xing-mo-shi">创建型模式</h1>
+<h2 id="dan-li-mo-shi-singleton-mo-shi">单例模式（Singleton模式）</h2>
+<p>最常用的设计模式之一，保证一个类仅有一个实例，并提供一个访问它的全局访问点，该实例被所有程序模块共享，即一次创建多次使用。</p>
+<h3 id="shi-xian-si-lu">实现思路</h3>
+<ol>
+<li>
+<p>私有化它的<strong>构造函数</strong>，以防止外界创建单例类的对象；</p>
+</li>
+<li>
+<p>使用类的<strong>私有静态指针变量指向类的唯一实例</strong>；</p>
+</li>
+<li>
+<p>用一个<strong>公有的静态方法获取该实例</strong>，即提供静态对外接口,可以让用户获得单例对象。</p>
+</li>
+</ol>
+<h3 id="lan-yi-mo-shi">懒汉模式</h3>
+<p>懒汉式(<code>Lazy-Initialization</code>)的方法是直到使用时才实例化对象，也就说直到调用<code>getInstance()</code> 方法的时候才 <code>new</code> 一个单例的对象。好处是如果未被调用就不会占用内存。（实例的初始化放在getInstance函数内部）</p>
+<h4 id="zui-ji-chu-ban-ben-de-dan-li-mo-shi-xian-cheng-bu-an-quan">最基础版本的单例模式（线程不安全）</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">singleton</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//私有化构造函数</span></span><br><span class="line">    <span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line">    ~<span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有化拷贝构造和赋值构造函数, 禁止外部拷贝和赋值</span></span><br><span class="line">    <span class="built_in">singleton</span>(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    singleton&amp; <span class="keyword">operator</span>=(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有静态指针变量指向唯一实例</span></span><br><span class="line">    <span class="type">static</span> singleton* _pInstance;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//公有静态方法获取实例 </span></span><br><span class="line">    <span class="function"><span class="type">static</span> singleton* <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == _pInstance) &#123;  <span class="comment">//保证只创建一个，保证只创建一个,没有加锁，线程不安全，当线程并发时会创建多个实例</span></span><br><span class="line">            _pInstance = <span class="keyword">new</span> <span class="built_in">singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _pInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//静态成员必须初始化</span></span><br><span class="line">singleton* singleton::_pInstance = <span class="literal">nullptr</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>测试</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    singleton *p1 = singleton::<span class="built_in">getInstance</span>();</span><br><span class="line">    singleton *p2 = singleton::<span class="built_in">getInstance</span>();</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;&amp;p1 = &quot;</span> &lt;&lt; p1 &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;&amp;p2 = &quot;</span> &lt;&lt; p2 &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (p1 == p2)</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;same&quot;</span> &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*输出：</span></span><br><span class="line"><span class="comment">&amp;p1 = 0xe31750</span></span><br><span class="line"><span class="comment">&amp;p2 = 0xe31750</span></span><br><span class="line"><span class="comment">same</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>打印<code>p1</code>和<code>p2</code>的地址，发现地址是一样的，说明构造函数只被调用了一次，<code>p1</code>和<code>p2</code>是同一个对象。</p>
+<p><strong>问题1</strong>：上面最基础版本的单例模式是存在问题的：</p>
+<p>内存泄漏，注意到类中只负责<code>new</code>出对象，却没有负责<code>delete</code>对象，因此只有构造函数被调用，析构函数却没有被调用。因此会导致内存泄漏。我们可以直接通过<code>delete p1;</code>去销毁，但是我们是通过静态方法创建的对象，最好也是用静态的方法销毁，所以必须让这条语句编译不通过。由于对象在销毁的时候会调用析构函数，所以，我们可以把析构函数设置成私有的。然后在类内部定义一个<code>destory()</code>函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">singleton</span>&#123;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">//销毁函数</span></span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">destory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(_pInstance) &#123;</span><br><span class="line">            <span class="keyword">delete</span> _pInstance;  <span class="comment">//会调用析构函数</span></span><br><span class="line">            _pInstance = <span class="literal">NULL</span>;</span><br><span class="line">            cout&lt;&lt;<span class="string">&quot;delete Instance&quot;</span>&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//手动释放</span></span><br><span class="line">    singleton::<span class="built_in">destory</span>();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>问题2</strong>：线程安全问题：当多线程获取单例的时候有可能引发竞争态现象，第一个条件在判断<code>if(NULL == _pInstance)</code>的时候就开始实例化单例，同时第 2 个线程也开始获取这个单例，这个时候<code>_pInstance</code>还是空的，于是也开始实例化单例，这样就会实例化出两个单例对象，这样就会出现线程安全问题了。解决方法：<strong>加锁</strong></p>
+<h4 id="jing-dian-de-strong-xian-cheng-an-quan-strong-lan-yi-mo-shi-shi-yong-strong-shuang-jian-ce-suo-mo-shi-strong-code-null-p-instance-code-jian-ce-liao-liang-ci">经典的<strong>线程安全</strong>懒汉模式，使用<strong>双检测锁模式</strong>（<code>NULL == _pInstance</code>检测了两次）</h4>
+<ul>
+<li><strong>实现1</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">singleton</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//静态锁，是由于静态函数只能访问静态成员</span></span><br><span class="line">    <span class="type">static</span> <span class="type">pthread_mutex_t</span> lk;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有化构造函数</span></span><br><span class="line">    <span class="built_in">singleton</span>()&#123;</span><br><span class="line">        <span class="built_in">pthread_mutex_init</span>(&amp;lk, <span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ~<span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有化拷贝构造和赋值构造函数, 禁止外部拷贝和赋值</span></span><br><span class="line">    <span class="built_in">singleton</span>(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    singleton&amp; <span class="keyword">operator</span>=(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有静态指针变量指向唯一实例</span></span><br><span class="line">    <span class="type">static</span> singleton* _pInstance;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//公有静态方法获取实例 </span></span><br><span class="line">    <span class="function"><span class="type">static</span> singleton* <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == _pInstance) &#123;</span><br><span class="line">            <span class="built_in">pthread_mutex_lock</span>(&amp;lk);</span><br><span class="line">            <span class="keyword">if</span> (<span class="literal">NULL</span> == _pInstance)</span><br><span class="line">                _pInstance = <span class="keyword">new</span> <span class="built_in">singleton</span>();</span><br><span class="line">            <span class="built_in">pthread_mutex_unlock</span>(&amp;lk);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _pInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//静态成员必须初始化</span></span><br><span class="line"><span class="type">pthread_mutex_t</span> singleton::lk;</span><br><span class="line">singleton* singleton::_pInstance = <span class="literal">nullptr</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>实现2</strong>（基于C++11）</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">singleton</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//静态锁，是由于静态函数只能访问静态成员</span></span><br><span class="line">    <span class="type">static</span> mutex mtx;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有化构造函数</span></span><br><span class="line">    <span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line">    ~<span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有化拷贝构造和赋值构造函数, 禁止外部拷贝和赋值</span></span><br><span class="line">    <span class="built_in">singleton</span>(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    singleton&amp; <span class="keyword">operator</span>=(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有静态指针变量指向唯一实例</span></span><br><span class="line">    <span class="type">static</span> singleton* _pInstance;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//公有静态方法获取实例 </span></span><br><span class="line">    <span class="function"><span class="type">static</span> singleton* <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == _pInstance) &#123;</span><br><span class="line">            <span class="comment">// lock_guard&lt;mutex&gt; lk(mtx);</span></span><br><span class="line">            <span class="function">unique_lock&lt;mutex&gt; <span class="title">lk</span><span class="params">(mtx)</span></span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="literal">NULL</span> == _pInstance)</span><br><span class="line">                _pInstance = <span class="keyword">new</span> <span class="built_in">singleton</span>();</span><br><span class="line">            lk.<span class="built_in">unlock</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _pInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//静态成员必须初始化</span></span><br><span class="line">mutex singleton::mtx;</span><br><span class="line">singleton* singleton::_pInstance = <span class="literal">nullptr</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="li-yong-ju-bu-jing-tai-bian-liang-shi-xian-xian-cheng-an-quan-lan-yi-mo-shi">利用局部静态变量实现线程安全懒汉模式</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++11以后,使用局部变量懒汉不用加锁</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">singleton</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//私有化构造函数</span></span><br><span class="line">    <span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line">    ~<span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有化拷贝构造和赋值构造函数, 禁止外部拷贝和赋值</span></span><br><span class="line">    <span class="built_in">singleton</span>(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    singleton&amp; <span class="keyword">operator</span>=(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> singleton* <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="type">static</span> singleton obj;</span><br><span class="line">        <span class="keyword">return</span> &amp;obj;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个方法是著名的写出《Effective C++》系列书籍的作者 <code>Meyers</code> 提出的。所用到的特性是在<code>C++11</code>标准中的<code>Magic Static</code>特性。</p>
+<blockquote>
+<p>如果当变量在初始化的时候，并发同时进入声明语句，并发线程将会阻塞等待初始化结束。</p>
+</blockquote>
+<p>这样保证了并发线程在获取静态局部变量的时候一定是初始化过的，所以具有线程安全性。</p>
+<h3 id="e-yi-mo-shi">饿汉模式</h3>
+<p>即迫不及待，在程序运行时立即初始化（实例的初始化放在getInstance函数外部，getInstance函数仅返回该唯一实例的指针）</p>
+<blockquote>
+<p>饿汉模式不需要锁，就可以实现线程安全。原因在于，在程序运行时就定义了对象，并对其初始化。之后，不管哪个线程调用成员函数<code>getInstance()</code>，都不过是返回一个的对象的指针而已。所以是线程安全的，不需要在获取实例的成员函数中加锁。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">singleton</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">//私有化构造函数</span></span><br><span class="line">    <span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line">    ~<span class="built_in">singleton</span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有化拷贝构造和赋值构造函数, 禁止外部拷贝和赋值</span></span><br><span class="line">    <span class="built_in">singleton</span>(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    singleton&amp; <span class="keyword">operator</span>=(<span class="type">const</span> singleton &amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有静态指针变量指向唯一实例</span></span><br><span class="line">    <span class="type">static</span> singleton* _pInstance;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> singleton* <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _pInstance;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">singleton* singleton::_pInstance = <span class="keyword">new</span> <span class="built_in">singleton</span>();</span><br></pre></td></tr></table></figure>
+<p>饿汉模式虽好，但其存在隐藏的问题，在于<strong>非静态对象（函数外的static对象）在不同编译单元中的初始化顺序是未定义的。如果在初始化完成之前调用 getInstance() 方法会返回一个未定义的实例</strong>。</p>
+
     </div>
 
     
@@ -435,6 +507,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jian-jie"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#strong-fen-lei-strong"><span class="nav-number">1.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#oop-qi-da-yuan-ze"><span class="nav-number">1.2.</span> <span class="nav-text">OOP七大原则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chuang-jian-xing-mo-shi"><span class="nav-number">2.</span> <span class="nav-text">创建型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dan-li-mo-shi-singleton-mo-shi"><span class="nav-number">2.1.</span> <span class="nav-text">单例模式（Singleton模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shi-xian-si-lu"><span class="nav-number">2.1.1.</span> <span class="nav-text">实现思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lan-yi-mo-shi"><span class="nav-number">2.1.2.</span> <span class="nav-text">懒汉模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zui-ji-chu-ban-ben-de-dan-li-mo-shi-xian-cheng-bu-an-quan"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">最基础版本的单例模式（线程不安全）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jing-dian-de-strong-xian-cheng-an-quan-strong-lan-yi-mo-shi-shi-yong-strong-shuang-jian-ce-suo-mo-shi-strong-code-null-p-instance-code-jian-ce-liao-liang-ci"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">经典的线程安全懒汉模式，使用双检测锁模式（NULL &#x3D;&#x3D; _pInstance检测了两次）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#li-yong-ju-bu-jing-tai-bian-liang-shi-xian-xian-cheng-an-quan-lan-yi-mo-shi"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">利用局部静态变量实现线程安全懒汉模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#e-yi-mo-shi"><span class="nav-number">2.1.3.</span> <span class="nav-text">饿汉模式</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -450,7 +523,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -463,7 +536,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -472,43 +545,6 @@
 
 
       </div>
-
-      
-          <div class="links-of-blogroll motion-element links-of-blogroll-block">
-            <div class="links-of-blogroll-title">
-              <!-- modify icon to fire by szw -->
-              <i class="fa fa-history fa-" aria-hidden="true"></i>
-              近期文章
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-              
-                <li>
-                  <a href="/" title="" target="_blank"></a>
-                </li>
-              
-                <li>
-                  <a href="/" title="" target="_blank"></a>
-                </li>
-              
-                <li>
-                  <a href="/" title="" target="_blank"></a>
-                </li>
-              
-                <li>
-                  <a href="/" title="" target="_blank"></a>
-                </li>
-              
-                <li>
-                  <a href="/" title="" target="_blank"></a>
-                </li>
-              
-            </ul>
-          </div>
-      
-
-      
-
 
     </div>
   </aside>
@@ -537,13 +573,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">99k</span>
+    <span title="站点总字数">111k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:30</span>
+    <span title="站点阅读时长">1:41</span>
 </div>
 
         
